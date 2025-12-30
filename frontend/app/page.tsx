@@ -1,65 +1,74 @@
-import Image from "next/image";
+/**
+ * Axion Landing Page
+ *
+ * Setup:
+ * 1. Ensure dependencies are installed: framer-motion, three, @react-three/fiber, @react-three/drei
+ * 2. Run: npm run dev
+ *
+ * Features:
+ * - Interactive 3D orb with parallax tracking
+ * - Scroll-triggered card animations
+ * - Parallax background layers
+ * - Respects prefers-reduced-motion
+ *
+ * Commit: feat(landing): interactive hero + reactive orb + scroll animations
+ */
+
+"use client";
+import React from "react";
+import HeroLayout from "@/components/landing/HeroLayout";
+import FloatingCard from "@/components/landing/FloatingCard";
+import HowItWorks from "@/components/landing/HowItWorks";
+import ParallaxBackground from "@/components/landing/ParallaxBackground";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main className="relative min-h-screen bg-bg overflow-x-hidden selection:bg-accent1/30 selection:text-white">
+      {/* Fixed Background Layers */}
+      <ParallaxBackground />
+
+      <div className="relative z-10 flex flex-col gap-20 pb-20">
+        {/* Section 1: Hero */}
+        <HeroLayout />
+
+        {/* Section 2: Capabilities Cards */}
+        <section className="container mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <FloatingCard title="Adaptive Analysis" subtitle="Intelligence">
+              Our neural engine maps your skills against 50,000+ career paths to
+              find your optimal trajectory.
+            </FloatingCard>
+            <FloatingCard title="Signal Driven" subtitle="Real-time">
+              Axion parses millions of market signals daily to ensure your
+              advice is relevant to the current zeitgeist.
+            </FloatingCard>
+            <FloatingCard title="Curated Resources" subtitle="Growth">
+              Don't waste time searching. Get a hyper-personalized feed of
+              repos, papers, and courses.
+            </FloatingCard>
+          </div>
+        </section>
+
+        {/* Section 3: How It Works */}
+        <HowItWorks />
+
+        {/* Footer */}
+        <footer className="container mx-auto px-6 py-12 border-t border-white/5 mt-12">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 opacity-60 hover:opacity-100 transition-opacity duration-300">
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+              <span className="font-mono text-xs tracking-[0.2em] text-accent1">
+                AXION · SYSTEM ONLINE
+              </span>
+            </div>
+
+            <div className="text-xs text-white/40 max-w-md text-center md:text-right">
+              Opinionated, engineer-first guidance — curated resources &
+              signal-driven advice.
+            </div>
+          </div>
+        </footer>
+      </div>
+    </main>
   );
 }
