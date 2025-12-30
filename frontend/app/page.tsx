@@ -54,15 +54,8 @@ export default function Home() {
 
         {/* Footer */}
         <footer className="container mx-auto px-6 py-12 border-t border-white/5 mt-12">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 opacity-60 hover:opacity-100 transition-opacity duration-300">
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span className="font-mono text-xs tracking-[0.2em] text-accent1">
-                AXION · SYSTEM ONLINE
-              </span>
-            </div>
-
-            <div className="text-xs text-white/40 max-w-md text-center md:text-right">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6 opacity-60 hover:opacity-100 transition-opacity duration-300">
+            <div className="text-xs text-white/40 max-w-md text-center">
               Opinionated, engineer-first guidance — curated resources &
               signal-driven advice.
             </div>

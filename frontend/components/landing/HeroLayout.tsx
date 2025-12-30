@@ -79,25 +79,6 @@ export const HeroLayout: React.FC = () => {
       <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left Content */}
         <div className="flex flex-col space-y-8 z-10">
-          {/* Status Badge - flicker in */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{
-              opacity: [0, 0.5, 0, 1, 0.8, 1],
-              scale: [0.8, 0.9, 0.85, 1],
-            }}
-            transition={{ duration: 1, times: [0, 0.2, 0.3, 0.5, 0.7, 1] }}
-            className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 w-fit backdrop-blur-sm"
-          >
-            <motion.span
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="w-2 h-2 rounded-full bg-accent1"
-            />
-            <span className="text-xs font-mono uppercase tracking-widest text-white/70">
-              System Online
-            </span>
-          </motion.div>
 
           {/* Hero Headline: Typed effect with glitch */}
           <motion.h1
