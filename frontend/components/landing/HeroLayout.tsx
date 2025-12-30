@@ -2,7 +2,7 @@
 import React, { Suspense, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { motion, useAnimation } from "framer-motion";
-import GlowButton from "@/components/landing/GlowButton";
+import GlowingButton from "@/components/landing/GlowingButton";
 
 const AxionOrb = dynamic(() => import("@/components/landing/AxionOrb"), {
   ssr: false,
@@ -79,7 +79,6 @@ export const HeroLayout: React.FC = () => {
       <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left Content */}
         <div className="flex flex-col space-y-8 z-10">
-
           {/* Hero Headline: Typed effect with glitch */}
           <motion.h1
             initial={{ opacity: 0 }}
@@ -144,24 +143,9 @@ export const HeroLayout: React.FC = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 0.6, duration: 0.5, type: "spring" }}
             >
-              <motion.div
-                animate={{
-                  boxShadow: [
-                    "0 0 0 0 rgba(0,240,216,0)",
-                    "0 0 20px 10px rgba(0,240,216,0.2)",
-                    "0 0 0 0 rgba(0,240,216,0)",
-                  ],
-                }}
-                transition={{ delay: 0.6, duration: 1.5, times: [0, 0.5, 1] }}
-                className="rounded-xl"
-              >
-                <GlowButton
-                  ariaLabel="Get Started with Axion"
-                  className="bg-white text-bg hover:text-white hover:bg-white/10"
-                >
-                  Get Started
-                </GlowButton>
-              </motion.div>
+              <GlowingButton variant="primary" size="md">
+                Get Started
+              </GlowingButton>
             </motion.div>
 
             <motion.div
@@ -169,19 +153,9 @@ export const HeroLayout: React.FC = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 0.8, duration: 0.5, type: "spring" }}
             >
-              <motion.div
-                animate={{
-                  boxShadow: [
-                    "0 0 0 0 rgba(124,76,255,0)",
-                    "0 0 20px 10px rgba(124,76,255,0.2)",
-                    "0 0 0 0 rgba(124,76,255,0)",
-                  ],
-                }}
-                transition={{ delay: 0.8, duration: 1.5, times: [0, 0.5, 1] }}
-                className="rounded-xl"
-              >
-                <GlowButton ariaLabel="Watch Demo">See Demo</GlowButton>
-              </motion.div>
+              <GlowingButton variant="secondary" size="md">
+                See Demo
+              </GlowingButton>
             </motion.div>
           </div>
 

@@ -1,0 +1,249 @@
+/**
+ * GlowingButton.module.css
+ * 
+ * GPU-accelerated glow effect using CSS variables for cursor position.
+ * The radial gradient is positioned using --mx and --my (set via JS).
+ */
+
+.btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.15s ease, border-color 0.2s ease;
+  cursor: pointer;
+  outline: none;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+
+  /* GPU optimization */
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.btn:active {
+  transform: translateZ(0) scale(0.98);
+}
+
+/* Size variants */
+.sm {
+  padding: 0.625rem 3rem;
+  font-size: 0.75rem;
+  min-width: 200px;
+  height: 2.5rem;
+}
+
+.md {
+  padding: 0.625rem 4rem;
+  font-size: 0.75rem;
+  min-width: 240px;
+  height: 2.5rem;
+}
+
+/* Glow container - moves with cursor using transform */
+.glowContainer {
+  position: absolute;
+  z-index: -1;
+  display: flex;
+  align-items: center;
+  justify-center: center;
+  width: 204px;
+  height: 100%;
+  top: 0;
+  left: 0;
+  transform: translateX(0) translateZ(0);
+  transition: none;
+  pointer-events: none;
+}
+
+/* Primary glow layer - intense center circle */
+/* Primary glow layer - intense center circle */
+.glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 121px;
+  height: 121px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    var(--glow-bright) 3.5%,
+    var(--glow-mid) 26.5%,
+    var(--glow-outer) 37.5%,
+    var(--glow-fade) 49%,
+    var(--glow-transparent) 92.5%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.btn:hover .glow {
+  opacity: 1;
+}
+
+/* Secondary glow layer - soft blurred ellipse */
+.rim {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 204px;
+  height: 103px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    43.3% 44.23% at 50% 49.51%,
+    var(--glow-highlight) 29%,
+    var(--glow-soft) 48.5%,
+    var(--glow-edge) 60.71%,
+    var(--glow-edge-transparent) 100%
+  );
+  filter: blur(5px);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.btn:hover .rim {
+  opacity: 1;
+}
+
+.btn:hover {
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Content layer - ensures text is on top */
+.content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Primary variant - cyan/neon accent */
+.primary {
+  --glow-bright: #00d9c4;
+  --glow-mid: #00b8a8;
+  --glow-outer: #00f0d8;
+  --glow-fade: rgba(0, 184, 168, 0.6);
+  --glow-transparent: rgba(0, 184, 168, 0);
+  --glow-highlight: #00c2b3;
+  --glow-soft: #00a899;
+  --glow-edge: #00b8a8;
+  --glow-edge-transparent: rgba(0, 184, 168, 0);
+  color: white;
+  animation: glowPulseCyan 3s ease-in-out infinite;
+}
+
+.primary:hover {
+  color: white;
+  border-color: rgba(0, 240, 216, 0.5);
+  animation: none;
+}
+
+/* Secondary variant - violet/purple accent */
+.secondary {
+  --glow-bright: #8b5cf6;
+  --glow-mid: #7c3aed;
+  --glow-outer: #a78bfa;
+  --glow-fade: rgba(124, 58, 237, 0.6);
+  --glow-transparent: rgba(124, 58, 237, 0);
+  --glow-highlight: #9333ea;
+  --glow-soft: #8b5cf6;
+  --glow-edge: #a855f7;
+  --glow-edge-transparent: rgba(168, 85, 247, 0);
+  color: white;
+  animation: glowPulseViolet 3s ease-in-out infinite;
+}
+
+.secondary:hover {
+  color: white;
+  border-color: rgba(139, 92, 246, 0.5);
+  animation: none;
+}
+
+/* Keyboard focus state - high contrast ring */
+.btn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.btn.focused .glow,
+.btn.focused .rim {
+  opacity: 1;
+}
+
+/* Touch device pulse animation fallback */
+@media (hover: none) and (pointer: coarse) {
+  .btn:active .glow {
+    animation: touchPulse 0.6s ease-out;
+  }
+}
+
+@keyframes touchPulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+}
+
+/* Pulsing glow animations */
+@keyframes glowPulseCyan {
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(0, 240, 216, 0.2), 0 0 20px rgba(0, 240, 216, 0.1),
+      0 0 30px rgba(0, 240, 216, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 240, 216, 0.4), 0 0 40px rgba(0, 240, 216, 0.2),
+      0 0 60px rgba(0, 240, 216, 0.1);
+  }
+}
+
+@keyframes glowPulseViolet {
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.2),
+      0 0 20px rgba(139, 92, 246, 0.1), 0 0 30px rgba(139, 92, 246, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4),
+      0 0 40px rgba(139, 92, 246, 0.2), 0 0 60px rgba(139, 92, 246, 0.1);
+  }
+}
+
+/* Reduced motion: disable animations, show static subtle glow */
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .glow,
+  .rim {
+    transition: none;
+    animation: none;
+  }
+
+  .btn:hover .glow {
+    opacity: 0.3;
+  }
+
+  .btn:hover .rim {
+    opacity: 0.5;
+  }
+
+  .btn:active {
+    transform: none;
+  }
+}
