@@ -18,8 +18,9 @@
 import React from "react";
 import HeroLayout from "@/components/landing/HeroLayout";
 import FloatingCard from "@/components/landing/FloatingCard";
-import HowItWorks from "@/components/landing/HowItWorks";
+import HowItWorksSection from "@/components/landing/HowItWorksSection";
 import ParallaxBackground from "@/components/landing/ParallaxBackground";
+import DemoSection from "@/components/landing/DemoSection";
 
 export default function Home() {
   return (
@@ -30,6 +31,9 @@ export default function Home() {
       <div className="relative z-10 flex flex-col gap-20 pb-20">
         {/* Section 1: Hero */}
         <HeroLayout />
+
+        {/* Section 2: Demo (immediately after hero) */}
+        <DemoSection />
 
         {/* Section 2: Capabilities Cards */}
         <section className="container mx-auto px-6">
@@ -50,7 +54,7 @@ export default function Home() {
         </section>
 
         {/* Section 3: How It Works */}
-        <HowItWorks />
+        <HowItWorksSection />
 
         {/* Footer */}
         <footer className="container mx-auto px-6 py-12 border-t border-white/5 mt-12">
