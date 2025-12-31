@@ -86,7 +86,7 @@ export default function TopNav({ repoUrl = "https://github.com/TejasNaik24/Axion
 
                     <div className="h-6 w-px bg-white/10 mx-1" />
 
-                    <Link href="#" className="text-sm font-medium text-white/70 hover:text-white px-4 py-2 rounded-full hover:bg-white/5 transition-colors">
+                    <Link href="#" className="text-sm font-medium text-white/70 hover:text-white px-4 py-2 rounded-full border border-white/20 hover:border-white/40 hover:bg-white/5 transition-all">
                         Log In
                     </Link>
 
@@ -120,7 +120,7 @@ export default function TopNav({ repoUrl = "https://github.com/TejasNaik24/Axion
                             <span className="w-4 h-4 rounded-full bg-accent1" /> Axion
                         </Link>
                         <div className="flex flex-col gap-4 w-64">
-                            <Link href="#" className="block w-full text-center py-3 bg-white/10 rounded-xl">Log In</Link>
+                            <Link href="#" className="block w-full text-center py-3 bg-white/5 border border-white/20 rounded-xl transition-all active:scale-95">Log In</Link>
                             <Link href="#" className="block w-full text-center py-3 bg-white text-bg font-bold rounded-xl">Sign Up</Link>
                         </div>
                         <button onClick={() => setIsMobileMenuOpen(false)} className="absolute top-6 right-6 p-2 text-white/50">Close</button>
