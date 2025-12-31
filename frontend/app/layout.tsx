@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     "Opinionated, engineer-first guidance. We analyze your trajectory and tell you what to do next.",
 };
 
-import TopNav from "@/components/TopNav";
+import TopNav from "@/components/landing/TopNav";
 
 // ... existing imports ...
 
