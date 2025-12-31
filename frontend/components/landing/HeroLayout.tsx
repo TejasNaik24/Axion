@@ -132,7 +132,8 @@ export const HeroLayout: React.FC = () => {
               transition={{ duration: 3, delay: 0.4, repeat: 1 }}
               className="bg-gradient-to-r from-white/80 via-accent1/80 to-white/80 bg-clip-text text-transparent bg-[length:200%_100%]"
             >
-              We analyze your trajectory. Then tell you what to do next.
+              I identify the weakest signals in your profile and give you a step-by-step
+              plan to fix them.
             </motion.span>
           </motion.h2>
 
@@ -172,8 +173,8 @@ export const HeroLayout: React.FC = () => {
               transition={{ delay: 1, duration: 1.2, ease: "easeOut" }}
               className="absolute bottom-0 left-0 h-px bg-gradient-to-r from-accent1/50 to-transparent"
             />
-            Opinionated, engineer-first guidance — curated resources &
-            signal-driven advice.
+            Opinionated, engineer-first guidance — projects,
+            resume fixes, curated resources.
           </motion.div>
         </div>
 
