@@ -187,7 +187,7 @@ export const HeroLayout: React.FC = () => {
             type: "spring",
             stiffness: 80,
           }}
-          className="relative w-full flex justify-center lg:justify-end z-10"
+          className="relative w-full flex justify-center lg:justify-center z-10 lg:mt-0"
         >
           <div className="relative w-full max-w-lg">
             {/* Background Glow behind Orb - pulse in */}
@@ -195,7 +195,7 @@ export const HeroLayout: React.FC = () => {
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.7, duration: 1.5 }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-accent2/20 blur-[100px] rounded-full pointer-events-none"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] bg-accent2/20 blur-[100px] rounded-full pointer-events-none"
             />
             <Suspense fallback={null}>
               <AxionOrb />

@@ -41,7 +41,7 @@ export default function TopNav({ repoUrl = "https://github.com/TejasNaik24/Axion
                     scale,
                     borderColor,
                 }}
-                className="fixed top-6 left-6 right-6 md:left-0 md:translate-x-0 md:w-auto md:mx-6 z-50 rounded-full border border-white/5 hidden md:flex items-center justify-between px-6 py-3 transition-shadow duration-500 hover:shadow-[0_8px_30px_rgba(0,240,216,0.1)] group overflow-hidden"
+                className="fixed top-6 left-6 right-6 z-50 rounded-full border border-white/5 hidden md:flex items-center justify-between px-6 py-3 transition-shadow duration-500 hover:shadow-[0_8px_30px_rgba(0,240,216,0.1)] group overflow-hidden"
             >
                 {/* Continuous Shimmer Glow (Always on) */}
                 <div
