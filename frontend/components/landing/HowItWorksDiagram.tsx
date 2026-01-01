@@ -24,7 +24,6 @@ export default function HowItWorksDiagram({
 }: HowItWorksDiagramProps) {
   const prefersReducedMotion = usePrefersReducedMotion();
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [tooltip, setTooltip] = useState<TooltipState>({
     region: null,
     x: 0,
@@ -87,25 +86,8 @@ export default function HowItWorksDiagram({
     }
   };
 
-  const playFlow = () => {
-    if (prefersReducedMotion) return;
-    setIsPlaying(true);
-    setTimeout(() => setIsPlaying(false), 3000);
-  };
-
   return (
     <div className="relative w-full">
-      {/* Play Flow Button */}
-      <div className="flex justify-center mb-4">
-        <button
-          onClick={playFlow}
-          disabled={isPlaying || prefersReducedMotion}
-          className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white/80 text-sm hover:bg-white/10 hover:border-accent1/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isPlaying ? "Playing..." : "Play flow"}
-        </button>
-      </div>
-
       {/* SVG Diagram */}
       <svg
         viewBox="0 0 800 400"
@@ -159,29 +141,6 @@ export default function HowItWorksDiagram({
             strokeDasharray="4 4"
           />
         </g>
-
-        {/* Animated flow dot */}
-        <AnimatePresence>
-          {isPlaying && !prefersReducedMotion && (
-            <motion.circle
-              r="6"
-              cy="200"
-              fill="var(--accent1)"
-              filter="url(#glow)"
-              initial={{ cx: 140, opacity: 0 }}
-              animate={{
-                cx: [140, 240, 340, 440, 540, 640, 700],
-                opacity: [0, 1, 1, 1, 1, 1, 0],
-              }}
-              exit={{ opacity: 0 }}
-              transition={{
-                duration: 3,
-                times: [0, 0.16, 0.33, 0.5, 0.66, 0.83, 1],
-                ease: "linear",
-              }}
-            />
-          )}
-        </AnimatePresence>
 
         {/* Region: Intake */}
         <g

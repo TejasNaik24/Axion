@@ -168,38 +168,24 @@ export default function HowItWorksSection() {
 
         {/* Two-column layout: Steps + Diagram */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
-          {/* Left column: Step cards with connecting lines */}
-          <div className="relative">
+          {/* Left column: Step cards */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="space-y-6"
+          >
             {steps.map((step, index) => (
-              <div key={step.title} className="relative">
-                <HowItWorksStep
-                  icon={step.icon}
-                  title={step.title}
-                  description={step.description}
-                  index={index}
-                />
-                
-                {/* Connecting line (only if not last step) */}
-                {index < steps.length - 1 && (
-                  <motion.div
-                    className="absolute left-1/2 -translate-x-1/2 w-0.5 bg-gradient-to-b from-accent1/40 to-accent2/40"
-                    style={{
-                      top: '100%',
-                      height: '24px',
-                    }}
-                    initial={{ scaleY: 0, opacity: 0 }}
-                    whileInView={{ scaleY: 1, opacity: 1 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{
-                      delay: prefersReducedMotion ? 0 : (index + 1) * 0.3,
-                      duration: prefersReducedMotion ? 0 : 0.4,
-                      ease: "easeOut",
-                    }}
-                  />
-                )}
-              </div>
+              <HowItWorksStep
+                key={step.title}
+                icon={step.icon}
+                title={step.title}
+                description={step.description}
+                index={index}
+              />
             ))}
-          </div>
+          </motion.div>
 
           {/* Right column: Architecture diagram */}
           <motion.div
