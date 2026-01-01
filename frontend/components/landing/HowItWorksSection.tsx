@@ -198,7 +198,28 @@ export default function HowItWorksSection() {
             }}
             className="flex flex-col justify-center"
           >
-            <div className="rounded-2xl bg-[rgba(255,255,255,0.02)] border border-white/6 backdrop-blur-lg p-6 md:p-8">
+            <div
+              className="rounded-2xl bg-[rgba(255,255,255,0.02)] border border-white/6 backdrop-blur-lg p-6 md:p-8"
+              style={{
+                boxShadow:
+                  "0 0 20px rgba(0,240,216,0.3), 0 0 40px rgba(124,76,255,0.2)",
+                animation: "borderGlow 3s ease-in-out infinite",
+              }}
+            >
+              <style jsx>{`
+                @keyframes borderGlow {
+                  0%,
+                  100% {
+                    box-shadow: 0 0 20px rgba(0, 240, 216, 0.4),
+                      0 0 40px rgba(124, 76, 255, 0.2);
+                  }
+                  50% {
+                    box-shadow: 0 0 20px rgba(124, 76, 255, 0.4),
+                      0 0 40px rgba(0, 240, 216, 0.2);
+                  }
+                }
+              `}</style>
+
               <h3 className="text-2xl font-semibold text-white mb-2">
                 Under the hood
               </h3>
