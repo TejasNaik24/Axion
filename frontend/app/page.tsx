@@ -21,6 +21,7 @@ import FloatingCard from "@/components/landing/FloatingCard";
 import HowItWorksSection from "@/components/landing/HowItWorksSection";
 import ParallaxBackground from "@/components/landing/ParallaxBackground";
 import DemoSection from "@/components/landing/DemoSection";
+import PowerfulFeaturesSection from "@/components/landing/PowerfulFeaturesSection";
 
 export default function Home() {
   return (
@@ -35,7 +36,7 @@ export default function Home() {
         {/* Section 2: Demo (immediately after hero) */}
         <DemoSection />
 
-        {/* Section 2: Capabilities Cards */}
+        {/* Section 3: Capabilities Cards */}
         <section className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <FloatingCard title="Adaptive Analysis" subtitle="Intelligence">
@@ -53,8 +54,11 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Section 3: How It Works */}
+        {/* Section 4: How It Works */}
         <HowItWorksSection />
+
+        {/* Section 5: Powerful Features */}
+        <PowerfulFeaturesSection />
 
         {/* Footer */}
         <footer className="container mx-auto px-6 py-12 border-t border-white/5 mt-12">

@@ -110,6 +110,19 @@ export default function TopNav({
               How it works
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent2 group-hover/nav:w-full transition-all duration-300" />
             </a>
+            <a
+              href="#powerful-features"
+              onClick={(e) => {
+                e.preventDefault();
+                document
+                  .getElementById("powerful-features")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="text-base font-bold text-white/70 hover:text-accent1 transition-all relative group/nav"
+            >
+              Powerful Features
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent1 group-hover/nav:w-full transition-all duration-300" />
+            </a>
           </div>
         </div>
 
