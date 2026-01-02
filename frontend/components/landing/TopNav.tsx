@@ -123,6 +123,19 @@ export default function TopNav({
               Powerful Features
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent1 group-hover/nav:w-full transition-all duration-300" />
             </a>
+            <a
+              href="#rag"
+              onClick={(e) => {
+                e.preventDefault();
+                document
+                  .getElementById("rag")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="text-base font-bold text-white/70 hover:text-accent2 transition-all relative group/nav"
+            >
+              RAG Intelligence
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent2 group-hover/nav:w-full transition-all duration-300" />
+            </a>
           </div>
         </div>
 

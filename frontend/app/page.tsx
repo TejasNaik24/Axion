@@ -22,6 +22,7 @@ import HowItWorksSection from "@/components/landing/HowItWorksSection";
 import ParallaxBackground from "@/components/landing/ParallaxBackground";
 import DemoSection from "@/components/landing/DemoSection";
 import PowerfulFeaturesSection from "@/components/landing/PowerfulFeaturesSection";
+import RagSection from "@/components/landing/RagSection";
 
 export default function Home() {
   return (
@@ -59,6 +60,9 @@ export default function Home() {
 
         {/* Section 5: Powerful Features */}
         <PowerfulFeaturesSection />
+
+        {/* Section 6: RAG Intelligence */}
+        <RagSection />
 
         {/* Footer */}
         <footer className="container mx-auto px-6 py-12 border-t border-white/5 mt-12">
