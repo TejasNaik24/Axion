@@ -34,6 +34,7 @@ import styles from "@/styles/auth.module.css";
 export default function LoginModal() {
   const shouldReduceMotion = useReducedMotion();
   const [email, setEmail] = useState("");
+  const [step, setStep] = useState<"email" | "verification">("email");
   const [isLoginHovered, setIsLoginHovered] = useState(false);
   const [error, setError] = useState(false);
 
@@ -44,8 +45,8 @@ export default function LoginModal() {
       return;
     }
     setError(false);
-    console.log("Login submitted (UI only):", { email });
-    // Future: add actual auth logic here
+    // Transition to verification step
+    setStep("verification");
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -78,70 +79,128 @@ export default function LoginModal() {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="relative z-10">
-          {/* Email field container - reserved space for error to prevent layout shift */}
-          <div className="relative pb-5">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-white/80 mb-2"
-            >
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                if (e.target.value) setError(false);
-              }}
-              onKeyDown={handleKeyDown}
-              placeholder="name@school-or-work.com"
-              className={`${styles.authInput} w-full px-4 py-3 rounded-lg text-base transition-colors duration-200 ${error ? "border-accent2 ring-1 ring-accent2/50" : ""
-                }`}
-              aria-label="Email address"
-              autoComplete="email"
-            />
-            {error && (
-              <p className="absolute bottom-0 left-0 text-xs text-accent2 font-medium">
-                Enter email address
+        <form onSubmit={handleSubmit} className="relative z-10 w-full">
+          {step === "email" ? (
+            <>
+              {/* Email field container - reserved space for error to prevent layout shift */}
+              <div className="relative pb-5">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-white/80 mb-2"
+                >
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (e.target.value) setError(false);
+                  }}
+                  onKeyDown={handleKeyDown}
+                  placeholder="name@school-or-work.com"
+                  className={`${styles.authInput} w-full px-4 py-3 rounded-lg text-base transition-colors duration-200 ${error ? "border-accent2 ring-1 ring-accent2/50" : ""
+                    }`}
+                  aria-label="Email address"
+                  autoComplete="email"
+                  autoFocus
+                />
+                {error && (
+                  <p className="absolute bottom-0 left-0 text-xs text-accent2 font-medium">
+                    Enter email address
+                  </p>
+                )}
+              </div>
+
+              {/* Primary button - GlowingButton with neon glow */}
+              <GlowingButton
+                type="submit"
+                variant="primary"
+                size="md"
+                className="w-full !rounded-full !h-11 font-bold tracking-wider text-[14px]"
+                onMouseEnter={() => setIsLoginHovered(true)}
+                onMouseLeave={() => setIsLoginHovered(false)}
+              >
+                LOG IN
+              </GlowingButton>
+
+              {/* Divider */}
+              <div className="relative flex py-2 items-center mt-6">
+                <div
+                  className={`grow border-t transition-colors duration-300 ${isLoginHovered ? "border-white/30 shadow-[0_1px_8px_rgba(255,255,255,0.1)]" : "border-white/10"
+                    }`}
+                ></div>
+                <span className={`shrink-0 mx-4 text-xs uppercase tracking-wider transition-colors duration-300 ${isLoginHovered ? "text-white/60" : "text-white/30"
+                  }`}>
+                  Or
+                </span>
+                <div
+                  className={`grow border-t transition-colors duration-300 ${isLoginHovered ? "border-white/30 shadow-[0_1px_8px_rgba(255,255,255,0.1)]" : "border-white/10"
+                    }`}
+                ></div>
+              </div>
+
+              {/* Social buttons */}
+              <div className="grid grid-cols-2 gap-4">
+                <SocialButton provider="google" icon={FcGoogle} isReflected={isLoginHovered} />
+                <SocialButton provider="microsoft" icon={FaMicrosoft} isReflected={isLoginHovered} />
+              </div>
+            </>
+          ) : (
+            /* Verification Step UI */
+            <div className="flex flex-col w-full">
+              <p className="text-white/60 text-sm mb-6">
+                We've sent a code to <br />
+                <span className="text-white font-medium">{email}</span>.
               </p>
-            )}
-          </div>
 
-          {/* Primary button - GlowingButton with neon glow */}
-          <GlowingButton
-            type="submit"
-            variant="primary"
-            size="md"
-            className="w-full !rounded-full !h-11 font-bold tracking-wider text-[14px]"
-            onMouseEnter={() => setIsLoginHovered(true)}
-            onMouseLeave={() => setIsLoginHovered(false)}
-          >
-            LOG IN
-          </GlowingButton>
+              {/* 6-digit Input Grid (3-3 Split) */}
+              <div className="flex items-center justify-center gap-4 mb-8 w-full">
+                {[0, 1, 2, 3, 4, 5].map((i) => {
+                  const isCyan = i % 2 === 0;
+                  const glowColor = isCyan ? "rgba(0, 240, 216, 0.8)" : "rgba(124, 76, 255, 0.8)";
+                  const shadowColor = isCyan ? "rgba(0, 240, 216, 0.4)" : "rgba(124, 76, 255, 0.4)";
 
-          {/* Divider */}
-          <div className="relative flex py-2 items-center mt-6">
-            <div
-              className={`grow border-t transition-colors duration-300 ${isLoginHovered ? "border-white/30 shadow-[0_1px_8px_rgba(255,255,255,0.1)]" : "border-white/10"
-                }`}
-            ></div>
-            <span className={`shrink-0 mx-4 text-xs uppercase tracking-wider transition-colors duration-300 ${isLoginHovered ? "text-white/60" : "text-white/30"
-              }`}>
-              Or
-            </span>
-            <div
-              className={`grow border-t transition-colors duration-300 ${isLoginHovered ? "border-white/30 shadow-[0_1px_8px_rgba(255,255,255,0.1)]" : "border-white/10"
-                }`}
-            ></div>
-          </div>
+                  return (
+                    <React.Fragment key={i}>
+                      {i === 3 && (
+                        <div className="text-white/20 text-2xl font-light shrink-0">–</div>
+                      )}
+                      <motion.input
+                        type="text"
+                        maxLength={1}
+                        initial={{ borderColor: "rgba(255, 255, 255, 0.08)", boxShadow: "0 0 0 rgba(0,0,0,0)" }}
+                        animate={{
+                          borderColor: ["rgba(255, 255, 255, 0.08)", glowColor, "rgba(255, 255, 255, 0.08)", "rgba(255, 255, 255, 0.08)"],
+                          boxShadow: ["0 0 0 rgba(0,0,0,0)", `0 0 20px ${shadowColor}`, "0 0 0 rgba(0,0,0,0)", "0 0 0 rgba(0,0,0,0)"]
+                        }}
+                        transition={{
+                          duration: 5.5,
+                          times: [0, 0.2, 0.4, 1], // Pulse localized within its window
+                          delay: i * 0.4, // Slower staggered start but still overlapping
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                        className={`${styles.authInput} flex-none rounded-md text-center text-2xl font-bold bg-white/5 border-white/10 outline-none focus:border-white/20 transition-colors`}
+                        style={{ width: '54px', height: '72px' }}
+                      />
+                    </React.Fragment>
+                  );
+                })}
+              </div>
 
-          {/* Social buttons */}
-          <div className="grid grid-cols-2 gap-4">
-            <SocialButton provider="google" icon={FcGoogle} isReflected={isLoginHovered} />
-            <SocialButton provider="microsoft" icon={FaMicrosoft} isReflected={isLoginHovered} />
-          </div>
+              {/* Help Text Footer */}
+              <div className="text-xs text-white/40">
+                <p>
+                  Haven't received the code?{" "}
+                  <button type="button" className="text-white hover:underline">
+                    Get a new code
+                  </button>
+                </p>
+              </div>
+            </div>
+          )}
         </form>
 
         {/* Aria live region */}
