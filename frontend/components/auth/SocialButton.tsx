@@ -32,12 +32,12 @@ export default function SocialButton({
 }: SocialButtonProps) {
   const shouldReduceMotion = useReducedMotion();
 
-  // Choose accent color based on provider
-  const accentColor = provider === "google" ? "#00f0d8" : "#7c4cff";
+  // Choose accent color based on provider - Swapped as per user preference
+  const accentColor = provider === "google" ? "#7c4cff" : "#00f0d8";
   const hoverShadow =
     provider === "google"
-      ? "0 4px 20px rgba(0, 240, 216, 0.2)"
-      : "0 4px 20px rgba(124, 76, 255, 0.2)";
+      ? "0 4px 20px rgba(124, 76, 255, 0.2)"
+      : "0 4px 20px rgba(0, 240, 216, 0.2)";
 
   const label =
     provider === "google" ? "Sign in with Google" : "Sign in with Microsoft";

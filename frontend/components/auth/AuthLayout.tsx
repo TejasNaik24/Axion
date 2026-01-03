@@ -71,19 +71,19 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
           }}
         />
 
-        {/* Dynamic Neon Glows - Positioned to frame the modal card */}
+        {/* Dynamic Neon Glows - Positioned to frame the modal card with maximum separation and intensity */}
         <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg h-full max-h-lg pointer-events-none"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-6xl h-full flex items-center justify-center pointer-events-none"
           style={{ zIndex: -1 }}
         >
-          {/* Top-right Purple Glow - Pushed further right/up */}
+          {/* Top-right Purple Glow - Maximum intensity */}
           <div
-            className="absolute -top-48 -right-48 w-[700px] h-[700px] bg-[#7c4cff] blur-[100px] opacity-55 mix-blend-screen"
+            className="absolute -top-20 -right-20 w-[650px] h-[650px] bg-[#7c4cff] blur-[120px] opacity-85 mix-blend-screen"
             style={{ transform: "translateZ(0)" }}
           />
-          {/* Bottom-left Cyan Glow - Pushed further left/down */}
+          {/* Bottom-left Cyan Glow - Maximum intensity */}
           <div
-            className="absolute -bottom-48 -left-48 w-[700px] h-[700px] bg-[#00f0d8] blur-[100px] opacity-50 mix-blend-screen"
+            className="absolute -bottom-20 -left-20 w-[700px] h-[700px] bg-[#00f0d8] blur-[120px] opacity-65 mix-blend-screen"
             style={{ transform: "translateZ(0)" }}
           />
         </div>

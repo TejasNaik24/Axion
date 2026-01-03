@@ -110,12 +110,16 @@ export default function LoginModal() {
         initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.95, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className={`${styles.modalContainer} relative rounded-2xl bg-[#12141c]/85 border border-white/6 backdrop-blur-xl px-8 pt-8 pb-24 w-full shadow-2xl`}
+        className={`${styles.modalContainer} relative rounded-2xl bg-[#08090f]/95 border border-white/12 backdrop-blur-2xl px-8 pt-8 pb-24 w-full shadow-2xl overflow-hidden`}
         style={{
           boxShadow:
-            "0 20px 60px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05)",
+            "0 20px 80px rgba(0, 0, 0, 0.8), 0 0 1px rgba(255, 255, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+          background: "radial-gradient(circle at 100% 0%, rgba(124, 76, 255, 0.35), transparent 50%), radial-gradient(circle at 0% 100%, rgba(0, 240, 216, 0.25), transparent 40%), #08090f",
         }}
       >
+        {/* Corner Light Bleeds - Top-right Purple & Bottom-left Cyan (High intensity) */}
+        <div className="absolute -top-16 -right-16 w-64 h-64 bg-[#7c4cff] blur-[70px] opacity-55 pointer-events-none mix-blend-plus-lighter" />
+        <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-[#00f0d8] blur-[70px] opacity-45 pointer-events-none mix-blend-plus-lighter" />
         {/* Project Icon - Brand Orb */}
         <div className="flex justify-start mb-1 relative z-20">
           <AxionOrbMini className="w-12 h-12" />
