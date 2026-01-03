@@ -159,8 +159,8 @@ export default function LoginModal() {
               <div className="flex items-center justify-center gap-4 mb-8 w-full">
                 {[0, 1, 2, 3, 4, 5].map((i) => {
                   const isCyan = i % 2 === 0;
-                  const glowColor = isCyan ? "rgba(0, 240, 216, 0.8)" : "rgba(124, 76, 255, 0.8)";
-                  const shadowColor = isCyan ? "rgba(0, 240, 216, 0.4)" : "rgba(124, 76, 255, 0.4)";
+                  const glowColor = isCyan ? "rgba(0, 240, 216, 1.0)" : "rgba(124, 76, 255, 1.0)";
+                  const shadowColor = isCyan ? "rgba(0, 240, 216, 0.6)" : "rgba(124, 76, 255, 0.6)";
 
                   return (
                     <React.Fragment key={i}>
