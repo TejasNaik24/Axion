@@ -11,7 +11,9 @@ import {
 } from "framer-motion";
 import { FiGithub, FiMenu } from "react-icons/fi";
 import Link from "next/link";
-import AxionOrbMini from "./AxionOrbMini";
+import dynamic from "next/dynamic";
+
+const AxionOrbMini = dynamic(() => import("./AxionOrbMini"), { ssr: false });
 
 export default function TopNav({
   repoUrl = "https://github.com/TejasNaik24/Axion",
@@ -157,7 +159,7 @@ export default function TopNav({
           <div className="h-6 w-px bg-white/10 mx-1" />
 
           <Link
-            href="#"
+            href="/login"
             className="text-sm font-medium text-white/70 hover:text-white px-4 py-2 rounded-full border border-white/20 hover:border-white/40 hover:bg-white/5 transition-all"
           >
             Log In
@@ -201,7 +203,8 @@ export default function TopNav({
             </Link>
             <div className="flex flex-col gap-4 w-64">
               <Link
-                href="#"
+                href="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="block w-full text-center py-3 bg-white/5 border border-white/20 rounded-xl transition-all active:scale-95"
               >
                 Log In

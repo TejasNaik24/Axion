@@ -16,6 +16,7 @@
 
 "use client";
 import React from "react";
+import TopNav from "@/components/landing/TopNav";
 import HeroLayout from "@/components/landing/HeroLayout";
 import FloatingCard from "@/components/landing/FloatingCard";
 import HowItWorksSection from "@/components/landing/HowItWorksSection";
@@ -27,6 +28,7 @@ import RagSection from "@/components/landing/RagSection";
 export default function Home() {
   return (
     <main className="relative min-h-screen bg-bg overflow-x-hidden selection:bg-accent1/30 selection:text-white">
+      <TopNav />
       {/* Fixed Background Layers */}
       <ParallaxBackground />
 

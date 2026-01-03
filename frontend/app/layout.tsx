@@ -18,10 +18,6 @@ export const metadata: Metadata = {
     "Opinionated, engineer-first guidance. We analyze your trajectory and tell you what to do next.",
 };
 
-import TopNav from "@/components/landing/TopNav";
-
-// ... existing imports ...
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -30,7 +26,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} relative`}>
-        <TopNav />
         {children}
       </body>
     </html>

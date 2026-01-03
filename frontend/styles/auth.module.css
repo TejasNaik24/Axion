@@ -1,0 +1,119 @@
+/**
+ * Auth Module CSS
+ * 
+ * Purpose: Contains custom animations and effects for auth components
+ * that are difficult to express purely in Tailwind, specifically:
+ * - Travel glow effect on primary button (using CSS custom properties)
+ * - Ripple animation on button press
+ * - Focus ring enhancements
+ */
+
+/* Primary button container */
+.primaryButton {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Travel glow effect - moves based on pointer position */
+.travelGlow {
+  position: absolute;
+  top: 0;
+  left: var(--mx, 50%);
+  transform: translateX(-50%);
+  width: 40%;
+  height: 100%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.9),
+    rgba(124, 76, 255, 0.12) 40%,
+    transparent 60%
+  );
+  filter: blur(18px);
+  opacity: var(--glow-opacity, 0);
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Show glow on hover */
+.primaryButton:hover .travelGlow {
+  --glow-opacity: 0.7;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .travelGlow {
+    display: none;
+  }
+}
+
+/* Ripple effect on press (optional enhancement) */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  width: 100px;
+  height: 100px;
+  pointer-events: none;
+  animation: ripple 0.6s ease-out;
+}
+
+/* Enhanced focus ring for accessibility */
+.primaryButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 240, 216, 0.4),
+    0 4px 20px rgba(0, 240, 216, 0.3);
+}
+
+/* Input field styling */
+.authInput {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: white;
+  transition: all 0.2s ease;
+}
+
+.authInput:focus {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(0, 240, 216, 0.4);
+  box-shadow: 0 0 0 3px rgba(0, 240, 216, 0.1);
+  outline: none;
+}
+
+.authInput::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Subtle pulse animation for the modal on mount */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modalContainer {
+  animation: fadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modalContainer {
+    animation: none;
+  }
+}
