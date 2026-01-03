@@ -194,7 +194,7 @@ export default function LoginModal() {
               <div className="text-xs text-white/40">
                 <p>
                   Haven't received the code?{" "}
-                  <button type="button" className="text-white hover:underline">
+                  <button type="button" className="text-accent2 hover:text-accent1 transition-colors cursor-pointer font-medium">
                     Get a new code
                   </button>
                 </p>
@@ -213,15 +213,17 @@ export default function LoginModal() {
       </motion.div>
 
       {/* Footer - Moved outside */}
-      <div className="mt-12 text-center">
-        <button
-          disabled
-          className="text-sm text-white/40 cursor-not-allowed hover:text-white/60 transition-colors"
-          aria-label="Sign up - coming soon"
-        >
-          Don't have an account? <span className="text-white">Sign up</span>
-        </button>
-      </div>
+      {step === 'email' && (
+        <div className="mt-12 text-center">
+          <button
+            disabled
+            className="text-sm text-white/40 cursor-not-allowed hover:text-white/60 transition-colors"
+            aria-label="Sign up - coming soon"
+          >
+            Don't have an account? <span className="text-white">Sign up</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 }
