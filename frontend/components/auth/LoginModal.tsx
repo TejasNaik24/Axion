@@ -35,8 +35,56 @@ export default function LoginModal() {
   const shouldReduceMotion = useReducedMotion();
   const [email, setEmail] = useState("");
   const [step, setStep] = useState<"email" | "verification">("email");
+  const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [isLoginHovered, setIsLoginHovered] = useState(false);
   const [error, setError] = useState(false);
+
+  // Auto-focus first OTP box when entering verification step
+  useEffect(() => {
+    if (step === "verification") {
+      setTimeout(() => {
+        inputRefs.current[0]?.focus();
+      }, 100);
+    }
+  }, [step]);
+
+  const handleOtpChange = (element: HTMLInputElement, index: number) => {
+    const value = element.value.replace(/[^0-9]/g, "");
+    if (!value && element.value !== "") return; // Only allow numbers
+
+    const newOtp = [...otp];
+    newOtp[index] = value.substring(value.length - 1);
+    setOtp(newOtp);
+
+    // Advance to next box if value is entered
+    if (value && index < 5) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleOtpKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      // Move to previous box on backspace if current box is empty
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handleOtpPaste = (e: React.ClipboardEvent) => {
+    e.preventDefault();
+    const data = e.clipboardData.getData("text").replace(/[^0-9]/g, "").substring(0, 6);
+    if (!data) return;
+
+    const newOtp = [...otp];
+    data.split("").forEach((char, index) => {
+      if (index < 6) newOtp[index] = char;
+    });
+    setOtp(newOtp);
+
+    // Focus last filled box or next empty one
+    const nextIndex = Math.min(data.length, 5);
+    inputRefs.current[nextIndex]?.focus();
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -168,8 +216,15 @@ export default function LoginModal() {
                         <div className="text-white/20 text-2xl font-light shrink-0">–</div>
                       )}
                       <motion.input
+                        ref={(el) => { inputRefs.current[i] = el; }}
                         type="text"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
                         maxLength={1}
+                        value={otp[i]}
+                        onChange={(e) => handleOtpChange(e.target, i)}
+                        onKeyDown={(e) => handleOtpKeyDown(e, i)}
+                        onPaste={i === 0 ? handleOtpPaste : undefined}
                         initial={{ borderColor: "rgba(255, 255, 255, 0.08)", boxShadow: "0 0 0 rgba(0,0,0,0)" }}
                         animate={{
                           borderColor: ["rgba(255, 255, 255, 0.08)", glowColor, "rgba(255, 255, 255, 0.08)", "rgba(255, 255, 255, 0.08)"],
