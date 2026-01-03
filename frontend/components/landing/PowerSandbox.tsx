@@ -79,9 +79,9 @@ export default function PowerSandbox() {
   const hoverVariants = prefersReducedMotion
     ? {}
     : {
-        y: -6,
-        rotate: 1,
-      };
+      y: -6,
+      rotate: 1,
+    };
 
   const handleToggle = (id: string) => {
     setExpandedId(expandedId === id ? null : id);
@@ -102,8 +102,7 @@ export default function PowerSandbox() {
           Interactive Sandbox (signals you'll see)
         </h3>
         <p className="text-white/60 text-sm leading-relaxed">
-          These blocks show example signals Axion retrieves — hover to inspect,
-          click to expand for context.
+          These blocks show example signals Axion retrieves.
         </p>
       </div>
 
@@ -113,7 +112,7 @@ export default function PowerSandbox() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-50px" }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-start"
       >
         {MOCK_BLOCKS.map((block) => (
           <div key={block.id} className="relative">
@@ -121,7 +120,6 @@ export default function PowerSandbox() {
               variants={blockVariants}
               whileHover={hoverVariants}
               whileTap={{ scale: 0.98 }}
-              className="h-full"
             >
               <div
                 role="button"
@@ -130,15 +128,14 @@ export default function PowerSandbox() {
                 onKeyDown={(e) => handleKeyDown(e, block.id)}
                 aria-expanded={expandedId === block.id}
                 aria-controls={`detail-${block.id}`}
-                className="rounded-xl bg-[rgba(255,255,255,0.03)] border border-white/8 backdrop-blur-lg p-6 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent2 transition-all h-full flex flex-col"
+                className="rounded-xl bg-[rgba(255,255,255,0.03)] border border-white/8 backdrop-blur-lg p-6 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent2 transition-all flex flex-col"
                 style={{
                   boxShadow:
                     block.glowColor === "accent1"
                       ? "0 0 20px rgba(0,240,216,0.3), 0 0 40px rgba(0,240,216,0.15)"
                       : "0 0 20px rgba(124,76,255,0.3), 0 0 40px rgba(124,76,255,0.15)",
-                  animation: `borderGlow${
-                    block.glowColor === "accent1" ? "Green" : "Purple"
-                  } 3s ease-in-out infinite`,
+                  animation: `borderGlow${block.glowColor === "accent1" ? "Green" : "Purple"
+                    } 3s ease-in-out infinite`,
                 }}
               >
                 <style jsx>{`
@@ -172,7 +169,10 @@ export default function PowerSandbox() {
                 <p className="text-white/70 text-sm flex-grow">{block.brief}</p>
 
                 {/* Expand indicator */}
-                <div className="mt-4 text-accent2 text-xs font-medium">
+                <div className={`mt-4 text-xs font-medium ${(block.id === 'b2' || block.id === 'b3')
+                    ? (expandedId === block.id ? 'text-accent1' : 'text-accent2')
+                    : (expandedId === block.id ? 'text-accent2' : 'text-accent1')
+                  }`}>
                   {expandedId === block.id ? "Collapse ↑" : "Expand ↓"}
                 </div>
 

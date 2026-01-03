@@ -14,7 +14,7 @@ export default function RagLegend() {
     >
       <p className="text-white/50 text-sm leading-relaxed">
         These falling blocks are retrieved signals — projects, GitHub tips,
-        resume fixes, interview advice. Click to inspect and drag to experiment.
+        resume fixes, interview advice.
       </p>
     </motion.div>
   );
