@@ -273,7 +273,7 @@ export default function LoginModal() {
 
       {/* Footer - Moved outside */}
       {step === 'email' && (
-        <div className="mt-12 text-center">
+        <div className="mt-2 text-center">
           <button
             disabled
             className="text-sm text-white/40 cursor-not-allowed hover:text-white/60 transition-colors"
