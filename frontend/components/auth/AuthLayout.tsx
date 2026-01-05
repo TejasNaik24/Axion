@@ -76,20 +76,69 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-6xl h-full flex items-center justify-center pointer-events-none"
           style={{ zIndex: -1 }}
         >
-          {/* Top-right Purple Glow - Maximum intensity */}
+          {/* Top-right Purple Glow - Pulsing animation */}
           <div
-            className="absolute -top-20 -right-20 w-[650px] h-[650px] bg-[#7c4cff] blur-[120px] opacity-85 mix-blend-screen"
-            style={{ transform: "translateZ(0)" }}
+            className={`absolute -top-20 -right-20 w-[650px] h-[650px] bg-[#7c4cff] blur-[120px] opacity-85 mix-blend-screen ${
+              shouldReduceMotion ? "" : "animate-pulse-glow-slow"
+            }`}
+            style={{
+              transform: "translateZ(0)",
+              animation: shouldReduceMotion
+                ? "none"
+                : "pulseGlow 8s ease-in-out infinite",
+            }}
           />
-          {/* Bottom-left Cyan Glow - Maximum intensity */}
+          {/* Bottom-left Cyan Glow - Pulsing animation with offset timing */}
           <div
-            className="absolute -bottom-20 -left-20 w-[700px] h-[700px] bg-[#00f0d8] blur-[120px] opacity-65 mix-blend-screen"
-            style={{ transform: "translateZ(0)" }}
+            className={`absolute -bottom-20 -left-20 w-[700px] h-[700px] bg-[#00f0d8] blur-[120px] opacity-65 mix-blend-screen ${
+              shouldReduceMotion ? "" : "animate-pulse-glow-slow"
+            }`}
+            style={{
+              transform: "translateZ(0)",
+              animation: shouldReduceMotion
+                ? "none"
+                : "pulseGlow 8s ease-in-out infinite 4s",
+            }}
           />
         </div>
       </div>
 
+      <style jsx>{`
+        @keyframes pulseGlow {
+          0%,
+          100% {
+            opacity: 0.85;
+            transform: translateZ(0) scale(1);
+            filter: blur(120px);
+          }
+          25% {
+            opacity: 0.95;
+            transform: translateZ(0) scale(1.05);
+            filter: blur(140px);
+          }
+          50% {
+            opacity: 0.6;
+            transform: translateZ(0) scale(0.95);
+            filter: blur(100px);
+          }
+          75% {
+            opacity: 0.9;
+            transform: translateZ(0) scale(1.02);
+            filter: blur(130px);
+          }
+        }
 
+        @media (prefers-reduced-motion: reduce) {
+          @keyframes pulseGlow {
+            0%,
+            100% {
+              opacity: 0.85;
+              transform: translateZ(0) scale(1);
+              filter: blur(120px);
+            }
+          }
+        }
+      `}</style>
 
       {/* Content container */}
       <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
