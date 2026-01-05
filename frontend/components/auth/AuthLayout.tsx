@@ -85,7 +85,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
               transform: "translateZ(0)",
               animation: shouldReduceMotion
                 ? "none"
-                : "pulseGlow 8s ease-in-out infinite",
+                : "pulseGlowPurple 8s ease-in-out infinite",
             }}
           />
           {/* Bottom-left Cyan Glow - Pulsing animation with offset timing */}
@@ -104,7 +104,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
       </div>
 
       <style jsx>{`
-        @keyframes pulseGlow {
+        @keyframes pulseGlowPurple {
           0%,
           100% {
             opacity: 0.85;
@@ -112,19 +112,43 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
             filter: blur(120px);
           }
           25% {
-            opacity: 0.95;
-            transform: translateZ(0) scale(1.05);
-            filter: blur(140px);
+            opacity: 1;
+            transform: translateZ(0) scale(1.08);
+            filter: blur(150px);
           }
           50% {
-            opacity: 0.6;
-            transform: translateZ(0) scale(0.95);
-            filter: blur(100px);
+            opacity: 0.4;
+            transform: translateZ(0) scale(0.92);
+            filter: blur(90px);
           }
           75% {
-            opacity: 0.9;
-            transform: translateZ(0) scale(1.02);
-            filter: blur(130px);
+            opacity: 0.95;
+            transform: translateZ(0) scale(1.04);
+            filter: blur(135px);
+          }
+        }
+
+        @keyframes pulseGlow {
+          0%,
+          100% {
+            opacity: 0.65;
+            transform: translateZ(0) scale(1);
+            filter: blur(120px);
+          }
+          25% {
+            opacity: 0.95;
+            transform: translateZ(0) scale(1.08);
+            filter: blur(150px);
+          }
+          50% {
+            opacity: 0.35;
+            transform: translateZ(0) scale(0.9);
+            filter: blur(85px);
+          }
+          75% {
+            opacity: 0.88;
+            transform: translateZ(0) scale(1.05);
+            filter: blur(140px);
           }
         }
 
