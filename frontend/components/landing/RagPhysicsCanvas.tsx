@@ -2,7 +2,7 @@
 // Dev: test reduced-motion behavior via OS settings or CSS media query
 // NOTE: Matter.js code is loaded only in RagPhysicsCanvas to avoid SSR issues
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import Matter from "matter-js";
 import { v4 as uuidv4 } from "uuid";
 import RagBlockCard from "./RagBlockCard";
@@ -86,13 +86,32 @@ export default function RagPhysicsCanvas() {
   const blocksRef = useRef<
     Map<string, { body: Matter.Body; element: HTMLDivElement }>
   >(new Map());
-  const [blocks] = useState(() => generateBlocks(18));
+  const blocksData = useMemo(() => generateBlocks(18), []);
   const animationFrameRef = useRef<number | null>(null);
   const draggedBodyRef = useRef<Matter.Body | null>(null);
   const dragOffsetRef = useRef({ x: 0, y: 0 });
+  const [isVisible, setIsVisible] = useState(false);
 
+  // Intersection observer to detect when canvas is in view
   useEffect(() => {
     if (!sceneRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.2 } // Trigger when 20% of the canvas is visible
+    );
+
+    observer.observe(sceneRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!sceneRef.current || !isVisible) return;
 
     const { Engine, Render, World, Bodies, Mouse, MouseConstraint, Runner } =
       Matter;
@@ -146,11 +165,11 @@ export default function RagPhysicsCanvas() {
 
     // Create physics bodies for blocks
     const blockBodies: Matter.Body[] = [];
-    blocks.forEach((block, index) => {
+    blocksData.forEach((block, index) => {
       const blockWidth = 160;
       const blockHeight = 100;
       // Distribute evenly across the full width, starting from left
-      const spacing = (width - blockWidth) / blocks.length;
+      const spacing = (width - blockWidth) / blocksData.length;
       const x = blockWidth / 2 + index * spacing + (Math.random() - 0.5) * 120;
       const y = -blockHeight * 2 - index * 80; // Spawn above viewport
 
@@ -199,7 +218,7 @@ export default function RagPhysicsCanvas() {
     };
 
     // Add event listeners to blocks
-    blocks.forEach((block) => {
+    blocksData.forEach((block) => {
       const body = blockBodies.find((b) => b.label === block.id);
       if (body) {
         const element = blocksRef.current.get(block.id)?.element;
@@ -249,7 +268,7 @@ export default function RagPhysicsCanvas() {
       Engine.clear(engine);
       render.canvas.remove();
     };
-  }, [blocks]);
+  }, [blocksData, isVisible]);
 
   return (
     <div
@@ -259,10 +278,17 @@ export default function RagPhysicsCanvas() {
         cursor: "grab",
       }}
     >
+      {!isVisible && (
+        <div className="w-full h-full flex items-center justify-center">
+          <div className="text-white/50 text-sm">
+            Scroll to activate physics...
+          </div>
+        </div>
+      )}
       {/* Canvas will be injected here by Matter.js Render */}
 
       {/* DOM overlay blocks */}
-      {blocks.map((block, index) => {
+      {blocksData.map((block, index) => {
         const blockWidth = 160;
         const blockHeight = 100;
 
