@@ -166,7 +166,7 @@ export default function TopNav({
           </Link>
 
           <Link
-            href="#"
+            href="/signup"
             className="relative px-5 py-2 rounded-full bg-white text-bg font-semibold text-sm hover:scale-105 transition-transform"
           >
             Sign Up
@@ -210,7 +210,8 @@ export default function TopNav({
                 Log In
               </Link>
               <Link
-                href="#"
+                href="/signup"
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="block w-full text-center py-3 bg-white text-bg font-bold rounded-xl"
               >
                 Sign Up

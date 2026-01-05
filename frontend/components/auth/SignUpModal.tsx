@@ -1,12 +1,11 @@
 /**
- * LoginModal Component
+ * SignUpModal Component
  *
- * Purpose: Main login modal UI with:
+ * Purpose: Main sign-up modal UI with:
  * - Glass morphism card design
  * - Email input field
- * - Primary "LOG IN" button with animated travel glow on pointer move
- * - Social sign-in buttons (Google, Microsoft)
- * - Back/Home link at top
+ * - Primary "CREATE ACCOUNT" button with animated travel glow on pointer move
+ * - Social sign-up buttons (Google, Microsoft)
  * - Accessible form controls with proper labels
  *
  * SSR: Must be client component - uses pointer events, framer-motion, and DOM manipulation
@@ -31,7 +30,7 @@ import GlowingButton from "@/components/landing/GlowingButton";
 import SocialButton from "./SocialButton";
 import styles from "@/styles/auth.module.css";
 
-export default function LoginModal() {
+export default function SignUpModal() {
   const shouldReduceMotion = useReducedMotion();
   const [email, setEmail] = useState("");
   const [step, setStep] = useState<"email" | "verification">("email");
@@ -111,7 +110,7 @@ export default function LoginModal() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-[480px]">
+    <div className="flex flex-col items-center justify-center w-full max-w-120">
       <motion.div
         initial={
           shouldReduceMotion ? false : { opacity: 0, scale: 0.95, y: 10 }
@@ -127,8 +126,8 @@ export default function LoginModal() {
         }}
       >
         {/* Corner Light Bleeds - Top-right Purple & Bottom-left Cyan (High intensity) */}
-        <div className="absolute -top-16 -right-16 w-64 h-64 bg-[#7c4cff] blur-[70px] opacity-55 pointer-events-none mix-blend-plus-lighter" />
-        <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-[#00f0d8] blur-[70px] opacity-45 pointer-events-none mix-blend-plus-lighter" />
+        <div className="absolute -top-16 -right-16 w-64 h-64 bg-accent2 blur-[70px] opacity-55 pointer-events-none mix-blend-plus-lighter" />
+        <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-accent1 blur-[70px] opacity-45 pointer-events-none mix-blend-plus-lighter" />
         {/* Project Icon - Brand Orb */}
         <div className="flex justify-start mb-1 relative z-20">
           <AxionOrbMini className="w-12 h-12" />
@@ -137,7 +136,7 @@ export default function LoginModal() {
         {/* Modal header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">
-            Sign in to Axion
+            Create new account
           </h1>
         </div>
 
@@ -184,11 +183,11 @@ export default function LoginModal() {
                 type="submit"
                 variant="primary"
                 size="md"
-                className="w-full !rounded-full !h-11 font-bold tracking-wider text-[14px]"
+                className="w-full rounded-full! h-11! font-bold tracking-wider text-[14px]"
                 onMouseEnter={() => setIsLoginHovered(true)}
                 onMouseLeave={() => setIsLoginHovered(false)}
               >
-                LOG IN
+                CREATE ACCOUNT
               </GlowingButton>
 
               {/* Divider */}
@@ -222,11 +221,13 @@ export default function LoginModal() {
                   provider="google"
                   icon={FcGoogle}
                   isReflected={isLoginHovered}
+                  action="sign-up"
                 />
                 <SocialButton
                   provider="microsoft"
                   icon={FaMicrosoft}
                   isReflected={isLoginHovered}
+                  action="sign-up"
                 />
               </div>
             </>
@@ -317,7 +318,7 @@ export default function LoginModal() {
           )}
         </form>
 
-        {/* Aria live region */}
+        {/* Aria live region for future error/status messages */}
         <div
           role="status"
           aria-live="polite"
@@ -326,15 +327,15 @@ export default function LoginModal() {
         />
       </motion.div>
 
-      {/* Footer - Moved outside */}
+      {/* Sign in link - Only show on email step */}
       {step === "email" && (
         <p className="text-white/60 text-sm mt-6">
-          Don't have an account?{" "}
+          Already have an account?{" "}
           <Link
-            href="/signup"
+            href="/login"
             className="text-white hover:text-accent1 transition-colors font-medium"
           >
-            Sign up
+            Sign in
           </Link>
         </p>
       )}

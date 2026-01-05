@@ -22,6 +22,7 @@ interface SocialButtonProps {
   icon: IconType;
   onClick?: () => void;
   isReflected?: boolean;
+  action?: "sign-in" | "sign-up";
 }
 
 export default function SocialButton({
@@ -29,6 +30,7 @@ export default function SocialButton({
   icon: Icon,
   onClick,
   isReflected,
+  action = "sign-in",
 }: SocialButtonProps) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -39,8 +41,9 @@ export default function SocialButton({
       ? "0 4px 20px rgba(124, 76, 255, 0.2)"
       : "0 4px 20px rgba(0, 240, 216, 0.2)";
 
-  const label =
-    provider === "google" ? "Sign in with Google" : "Sign in with Microsoft";
+  const actionText = action === "sign-up" ? "Sign up" : "Sign in";
+  const providerName = provider === "google" ? "Google" : "Microsoft";
+  const label = `${actionText} with ${providerName}`;
 
   return (
     <motion.button
@@ -49,12 +52,12 @@ export default function SocialButton({
         shouldReduceMotion
           ? {}
           : {
-            scale: 1.01,
-            transition: { duration: 0.2 },
-          }
+              scale: 1.01,
+              transition: { duration: 0.2 },
+            }
       }
       whileTap={shouldReduceMotion ? {} : { scale: 0.99 }}
-      className="relative w-full h-10 rounded-md bg-white/[0.03] border border-white/5 flex items-center justify-center gap-2 text-white/80 font-medium text-[13px] transition-all duration-200 hover:bg-white/[0.06] hover:border-white/15 focus:outline-none focus:ring-1 focus:ring-white/20 group overflow-hidden cursor-pointer"
+      className="relative w-full h-10 rounded-md bg-white/3 border border-white/5 flex items-center justify-center gap-2 text-white/80 font-medium text-[13px] transition-all duration-200 hover:bg-white/6 hover:border-white/15 focus:outline-none focus:ring-1 focus:ring-white/20 group overflow-hidden cursor-pointer"
       style={{
         ["--accent-color" as string]: accentColor,
       }}
@@ -69,16 +72,15 @@ export default function SocialButton({
       aria-label={label}
     >
       {/* Icon */}
-      <Icon className="w-5 h-5 flex-shrink-0" />
+      <Icon className="w-5 h-5 shrink-0" />
 
       {/* Label */}
-      <span className="whitespace-nowrap leading-none">Sign in with {provider === 'google' ? 'Google' : 'Microsoft'}</span>
+      <span className="whitespace-nowrap leading-none">{label}</span>
 
       {/* Reflection from main button (top edge glow) */}
-      <div
-        className={`absolute top-0 left-0 right-0 h-[1px] bg-linear-to-r from-transparent via-white/40 to-transparent transition-opacity duration-300 ${isReflected ? "opacity-100" : "opacity-0"
-          }`}
-      />
+      {isReflected && (
+        <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-white/40 to-transparent transition-opacity duration-300 opacity-100" />
+      )}
 
       {/* Subtle rim glow on hover (pseudo-element approach) */}
       <div
