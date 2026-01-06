@@ -1,7 +1,12 @@
 "use client";
 import React, { useRef, useState, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { MeshWobbleMaterial, Float, Environment, Sphere } from "@react-three/drei";
+import {
+  MeshWobbleMaterial,
+  Float,
+  Environment,
+  Sphere,
+} from "@react-three/drei";
 import * as THREE from "three";
 
 function PrismaticCore({
@@ -19,12 +24,28 @@ function PrismaticCore({
     const mouse = mouseRef.current;
 
     // Smooth movement
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, mouse.x * 0.3, 0.05);
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, -mouse.y * 0.3, 0.05);
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(
+      groupRef.current.rotation.y,
+      mouse.x * 0.3,
+      0.05
+    );
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(
+      groupRef.current.rotation.x,
+      -mouse.y * 0.3,
+      0.05
+    );
 
     // Position parallax
-    groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, mouse.x * 0.2, 0.05);
-    groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, mouse.y * 0.2, 0.05);
+    groupRef.current.position.x = THREE.MathUtils.lerp(
+      groupRef.current.position.x,
+      mouse.x * 0.2,
+      0.05
+    );
+    groupRef.current.position.y = THREE.MathUtils.lerp(
+      groupRef.current.position.y,
+      mouse.y * 0.2,
+      0.05
+    );
 
     // Subtle breathing
     const scale = 1 + Math.sin(t * 1.5) * 0.03;
@@ -103,16 +124,20 @@ export default function AxionOrb() {
       }}
     >
       {/* Clean Gradient Aura */}
-      <div className={`absolute inset-0 rounded-full transition-all duration-1000 ${isHovered ? 'opacity-30' : 'opacity-10'}`}
+      <div
+        className={`absolute inset-0 rounded-full transition-all duration-1000 ${
+          isHovered ? "opacity-30" : "opacity-10"
+        }`}
         style={{
-          background: 'radial-gradient(circle at center, var(--accent1) 0%, var(--accent2) 50%, transparent 70%)',
-          filter: 'blur(80px)'
+          background:
+            "radial-gradient(circle at center, var(--accent1) 0%, var(--accent2) 50%, transparent 70%)",
+          filter: "blur(80px)",
         }}
       />
 
       <Canvas camera={{ position: [0, 0, 5.8], fov: 45 }} dpr={[1, 2]}>
         <ambientLight intensity={0.5} />
-        <Environment preset="studio" />
+        <Environment preset="night" />
         <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
           <PrismaticCore mouseRef={mouseRef} isHovered={isHovered} />
         </Float>

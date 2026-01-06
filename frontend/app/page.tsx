@@ -18,7 +18,6 @@
 import React from "react";
 import TopNav from "@/components/landing/TopNav";
 import HeroLayout from "@/components/landing/HeroLayout";
-import FloatingCard from "@/components/landing/FloatingCard";
 import HowItWorksSection from "@/components/landing/HowItWorksSection";
 import ParallaxBackground from "@/components/landing/ParallaxBackground";
 import DemoSection from "@/components/landing/DemoSection";
@@ -39,31 +38,13 @@ export default function Home() {
         {/* Section 2: Demo (immediately after hero) */}
         <DemoSection />
 
-        {/* Section 3: Capabilities Cards */}
-        <section className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <FloatingCard title="Adaptive Analysis" subtitle="Intelligence">
-              Our neural engine maps your skills against 50,000+ career paths to
-              find your optimal trajectory.
-            </FloatingCard>
-            <FloatingCard title="Signal Driven" subtitle="Real-time">
-              Axion parses millions of market signals daily to ensure your
-              advice is relevant to the current zeitgeist.
-            </FloatingCard>
-            <FloatingCard title="Curated Resources" subtitle="Growth">
-              Don't waste time searching. Get a hyper-personalized feed of
-              repos, papers, and courses.
-            </FloatingCard>
-          </div>
-        </section>
-
-        {/* Section 4: How It Works */}
+        {/* Section 3: How It Works */}
         <HowItWorksSection />
 
-        {/* Section 5: Powerful Features */}
+        {/* Section 4: Powerful Features */}
         <PowerfulFeaturesSection />
 
-        {/* Section 6: RAG Intelligence */}
+        {/* Section 5: RAG Intelligence */}
         <RagSection />
 
         {/* Footer */}

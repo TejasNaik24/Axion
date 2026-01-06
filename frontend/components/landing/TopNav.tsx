@@ -66,7 +66,7 @@ export default function TopNav({
         />
 
         {/* Left: Brand */}
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-8 relative z-10">
           <Link
             href="/"
             onClick={(e) => {
@@ -75,10 +75,12 @@ export default function TopNav({
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }
             }}
-            className="flex items-center gap-3 pl-3 group focus:outline-none"
+            className="flex items-center gap-3 pl-3 group focus:outline-none relative z-10"
             aria-label="Scroll to top"
           >
-            <AxionOrbMini />
+            <div className="relative z-10 w-8 h-8">
+              <AxionOrbMini />
+            </div>
             <span className="font-bold text-lg tracking-tight text-white group-hover:text-accent1 transition-colors">
               Axion
             </span>
