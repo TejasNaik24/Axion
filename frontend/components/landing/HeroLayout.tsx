@@ -2,6 +2,7 @@
 import React, { Suspense, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { motion, useAnimation } from "framer-motion";
+import Link from "next/link";
 import GlowingButton from "@/components/landing/GlowingButton";
 
 const AxionOrb = dynamic(() => import("@/components/landing/AxionOrb"), {
@@ -144,9 +145,11 @@ export const HeroLayout: React.FC = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 0.6, duration: 0.5, type: "spring" }}
             >
-              <GlowingButton variant="primary" size="md">
-                Get Started
-              </GlowingButton>
+              <Link href="/signup">
+                <GlowingButton variant="primary" size="md">
+                  Get Started
+                </GlowingButton>
+              </Link>
             </motion.div>
 
             <motion.div

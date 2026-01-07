@@ -19,6 +19,7 @@
 
 import React from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import LaunchContent from "./LaunchContent";
 import LaunchVisualPlaceholder from "./LaunchVisualPlaceholder";
@@ -39,6 +40,7 @@ export default function LaunchSection({
     onSeeDemo,
 }: LaunchSectionProps) {
     const shouldReduceMotion = useReducedMotion();
+    const router = useRouter();
 
     // Section entrance animation - using tuple for ease
     const sectionVariants = {
@@ -51,8 +53,7 @@ export default function LaunchSection({
     };
 
     const handleGetStarted = () => {
-        // TODO: wire Get Started CTA to onboarding flow
-        console.log("Get Started clicked");
+        router.push("/signup");
         onGetStarted?.();
     };
 
