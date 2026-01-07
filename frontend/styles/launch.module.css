@@ -148,7 +148,7 @@
 .minuteHand {
     position: absolute;
     width: 5px;
-    height: 145px;
+    height: 158px;
     bottom: 50%;
     left: calc(50% - 2.5px);
     transform-origin: bottom center;
@@ -168,8 +168,8 @@
 /* Minute trail - drawn/painted effect behind the hand */
 .minuteTrail {
     position: absolute;
-    width: 290px;
-    height: 290px;
+    width: 316px;
+    height: 316px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
