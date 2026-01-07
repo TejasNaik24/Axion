@@ -23,6 +23,7 @@ import ParallaxBackground from "@/components/landing/ParallaxBackground";
 import DemoSection from "@/components/landing/DemoSection";
 import PowerfulFeaturesSection from "@/components/landing/PowerfulFeaturesSection";
 import RagSection from "@/components/landing/RagSection";
+import LaunchSection from "@/components/landing/LaunchSection";
 
 export default function Home() {
   return (
@@ -47,7 +48,8 @@ export default function Home() {
         {/* Section 5: RAG Intelligence */}
         <RagSection />
 
-        {/* Footer */}
+        {/* Section 6: Launch / Get Started */}
+        <LaunchSection />
         <footer className="container mx-auto px-6 py-12 border-t border-white/5 mt-12">
           <div className="flex flex-col md:flex-row items-center justify-center gap-6 opacity-60 hover:opacity-100 transition-opacity duration-300">
             <div className="text-xs text-white/40 text-center">
