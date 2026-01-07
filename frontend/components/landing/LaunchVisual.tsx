@@ -5,7 +5,8 @@
  * Read app/ components/ styles/ before editing.
  *
  * Purpose: Left-side animated "Momentum Clock" visual for LaunchSection
- * - CSS-based clock dial with numbers, rotating hands with glowing trails
+ * - CSS-based clock dial with numbers positioned inside the circle
+ * - Rotating hands with drawn/painted trail effects (like Huly)
  * - Pointer-reactive specular highlight
  * - Click triggers demo pulse animation
  * - Static fallback for reduced-motion
@@ -58,12 +59,21 @@ export default function LaunchVisual({ className = "" }: LaunchVisualProps) {
         setTimeout(() => setIsPulsing(false), 2000);
     };
 
-    // Clock numbers positioned around the dial
+    // Clock numbers positioned in a circle on the clock face
+    // Using percentage-based positioning relative to 320px clock
     const clockNumbers = [
-        { num: "12", style: { top: "8%", left: "50%", transform: "translateX(-50%)" } },
-        { num: "3", style: { top: "50%", right: "10%", transform: "translateY(-50%)" } },
-        { num: "6", style: { bottom: "8%", left: "50%", transform: "translateX(-50%)" } },
-        { num: "9", style: { top: "50%", left: "10%", transform: "translateY(-50%)" } },
+        { num: 12, x: 50, y: 12 },   // top center
+        { num: 1, x: 70, y: 16 },
+        { num: 2, x: 84, y: 30 },
+        { num: 3, x: 88, y: 50 },    // right center
+        { num: 4, x: 84, y: 70 },
+        { num: 5, x: 70, y: 84 },
+        { num: 6, x: 50, y: 88 },    // bottom center
+        { num: 7, x: 30, y: 84 },
+        { num: 8, x: 16, y: 70 },
+        { num: 9, x: 12, y: 50 },    // left center
+        { num: 10, x: 16, y: 30 },
+        { num: 11, x: 30, y: 16 },
     ];
 
     // If reduced motion, show static fallback
@@ -101,58 +111,56 @@ export default function LaunchVisual({ className = "" }: LaunchVisualProps) {
                 }
             }}
         >
-            {/* Outer ring with subtle border */}
-            <div className={styles.outerRing} />
+            {/* Fixed-size clock face wrapper - 320x320 */}
+            <div className={styles.clockFace}>
+                {/* Outer ring with subtle border */}
+                <div className={styles.outerRing} />
 
-            {/* Tick marks around the dial */}
-            <div className={styles.tickRing} />
+                {/* Tick marks around the dial */}
+                <div className={styles.tickRing} />
 
-            {/* Clock numbers */}
-            {clockNumbers.map(({ num, style }) => (
-                <div
-                    key={num}
-                    className={styles.clockNumber}
-                    style={style as React.CSSProperties}
-                >
-                    {num}
+                {/* Clock numbers - all 12 numbers positioned in a circle */}
+                {clockNumbers.map(({ num, x, y }) => (
+                    <div
+                        key={num}
+                        className={styles.clockNumber}
+                        style={{
+                            top: `${y}%`,
+                            left: `${x}%`,
+                        }}
+                    >
+                        {num}
+                    </div>
+                ))}
+
+                {/* Hour hand with drawn purple trail */}
+                <div className={`${styles.hourHandContainer} ${isPulsing ? styles.handPulse : ""}`}>
+                    <div className={styles.hourTrail} />
+                    <div className={styles.hourHand} />
                 </div>
-            ))}
 
-            {/* Hour hand with trail */}
-            <div className={`${styles.hourHand} ${isPulsing ? styles.handPulse : ""}`}>
-                <div className={styles.handTrail} />
+                {/* Minute hand with drawn cyan trail */}
+                <div className={`${styles.minuteHandContainer} ${isPulsing ? styles.handPulse : ""}`}>
+                    <div className={styles.minuteTrail} />
+                    <div className={styles.minuteHand} />
+                </div>
+
+                {/* Inner pulsing orb (center cap) */}
+                <motion.div
+                    className={styles.innerOrb}
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                    <div className={styles.orbCore} />
+                </motion.div>
+
+                {/* Specular highlight - follows cursor */}
+                <div
+                    ref={highlightRef}
+                    className={styles.specularHighlight}
+                    style={{ opacity: 0 }}
+                />
             </div>
-
-            {/* Minute hand with trail */}
-            <div className={`${styles.minuteHand} ${isPulsing ? styles.handPulse : ""}`}>
-                <div className={styles.handTrail} />
-            </div>
-
-            {/* Rotating arc - sweeps with cyan → violet gradient */}
-            <div
-                className={`${styles.arcSweep} ${isPulsing ? styles.arcSweepPulse : ""}`}
-            />
-
-            {/* Arc glow overlay */}
-            <div
-                className={`${styles.arcGlow} ${isPulsing ? styles.arcSweepPulse : ""}`}
-            />
-
-            {/* Inner pulsing orb (center cap) */}
-            <motion.div
-                className={styles.innerOrb}
-                whileHover={{ scale: 1.1 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            >
-                <div className={styles.orbCore} />
-            </motion.div>
-
-            {/* Specular highlight - follows cursor */}
-            <div
-                ref={highlightRef}
-                className={styles.specularHighlight}
-                style={{ opacity: 0 }}
-            />
 
             {/* Accessibility: hidden text for screen readers */}
             <span className="sr-only">

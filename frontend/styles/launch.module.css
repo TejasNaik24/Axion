@@ -5,9 +5,9 @@
  * Read app/ components/ styles/ before editing.
  *
  * Purpose: Advanced CSS for the Launch section visual
- * - Dial tick ring styling
- * - Arc sweep keyframes
- * - Glow masks not expressible in Tailwind
+ * - Clock dial with numbers inside
+ * - Drawn/painted trail effects on hands (like Huly)
+ * - Glow and animation effects
  */
 
 /* Dial container */
@@ -20,9 +20,19 @@
     justify-content: center;
 }
 
+/* Fixed-size clock face - contains all clock elements */
+.clockFace {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    flex-shrink: 0;
+}
+
 /* Outer ring with tick marks */
 .outerRing {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 320px;
     height: 320px;
     border-radius: 50%;
@@ -35,6 +45,8 @@
 /* Tick marks around the dial */
 .tickRing {
     position: absolute;
+    top: 10px;
+    left: 10px;
     width: 300px;
     height: 300px;
     border-radius: 50%;
@@ -55,76 +67,193 @@
             transparent 49%);
 }
 
-/* Clock numbers */
+/* Clock numbers - positioned explicitly inside the clock */
 .clockNumber {
     position: absolute;
-    font-size: 16px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.55);
     font-family: system-ui, -apple-system, sans-serif;
-    text-shadow: 0 0 10px rgba(0, 240, 216, 0.3);
+    text-shadow: 0 0 10px rgba(0, 240, 216, 0.5);
     z-index: 10;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
 }
 
-/* Hour hand - slower rotation */
-.hourHand {
+/* Hour hand container - rotates to create trail effect */
+.hourHandContainer {
     position: absolute;
-    width: 4px;
-    height: 70px;
-    bottom: 50%;
-    left: calc(50% - 2px);
-    transform-origin: bottom center;
+    width: 100%;
+    height: 100%;
+    transform-origin: center center;
     animation: hourRotate 60s linear infinite;
     z-index: 5;
 }
 
-.hourHand::before {
-    content: "";
+/* Hour hand - the actual pointer */
+.hourHand {
+    position: absolute;
+    width: 5px;
+    height: 85px;
+    bottom: 50%;
+    left: calc(50% - 2.5px);
+    transform-origin: bottom center;
+    background: linear-gradient(to top,
+            transparent 0%,
+            rgba(124, 76, 255, 0.9) 15%,
+            rgba(160, 120, 255, 1) 50%,
+            rgba(200, 180, 255, 1) 100%);
+    border-radius: 3px;
+    box-shadow:
+        0 0 20px rgba(124, 76, 255, 0.8),
+        0 0 40px rgba(124, 76, 255, 0.6),
+        0 0 60px rgba(124, 76, 255, 0.4);
+    z-index: 2;
+}
+
+/* Hour trail - drawn/painted effect behind the hand */
+.hourTrail {
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: conic-gradient(from 0deg,
+            rgba(124, 76, 255, 0.9) 0deg,
+            rgba(124, 76, 255, 0.7) 30deg,
+            rgba(124, 76, 255, 0.5) 60deg,
+            rgba(124, 76, 255, 0.3) 90deg,
+            rgba(124, 76, 255, 0.1) 120deg,
+            transparent 150deg);
+    mask-image: radial-gradient(circle,
+            transparent 30%,
+            black 31%,
+            black 45%,
+            transparent 46%);
+    -webkit-mask-image: radial-gradient(circle,
+            transparent 30%,
+            black 31%,
+            black 45%,
+            transparent 46%);
+    filter: blur(4px);
+    opacity: 0.9;
+    z-index: 1;
+}
+
+/* Minute hand container - rotates to create trail effect */
+.minuteHandContainer {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to top, transparent 0%, var(--accent2) 40%, rgba(255, 255, 255, 0.9) 100%);
-    border-radius: 2px;
-    box-shadow: 0 0 15px var(--accent2), 0 0 30px rgba(124, 76, 255, 0.5);
+    transform-origin: center center;
+    animation: minuteRotate 12s linear infinite;
+    z-index: 7;
 }
 
-/* Minute hand - faster rotation */
+/* Minute hand - the actual pointer */
 .minuteHand {
     position: absolute;
-    width: 3px;
-    height: 100px;
+    width: 4px;
+    height: 110px;
     bottom: 50%;
-    left: calc(50% - 1.5px);
+    left: calc(50% - 2px);
     transform-origin: bottom center;
-    animation: minuteRotate 12s linear infinite;
-    z-index: 6;
+    background: linear-gradient(to top,
+            transparent 0%,
+            rgba(0, 240, 216, 0.9) 10%,
+            rgba(50, 255, 235, 1) 50%,
+            rgba(150, 255, 245, 1) 100%);
+    border-radius: 2px;
+    box-shadow:
+        0 0 20px rgba(0, 240, 216, 1),
+        0 0 40px rgba(0, 240, 216, 0.7),
+        0 0 60px rgba(0, 240, 216, 0.5);
+    z-index: 2;
 }
 
-.minuteHand::before {
-    content: "";
+/* Minute trail - drawn/painted effect behind the hand */
+.minuteTrail {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to top, transparent 0%, var(--accent1) 30%, rgba(255, 255, 255, 0.95) 100%);
-    border-radius: 1.5px;
-    box-shadow: 0 0 12px var(--accent1), 0 0 25px rgba(0, 240, 216, 0.6);
+    width: 220px;
+    height: 220px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: conic-gradient(from 0deg,
+            rgba(0, 240, 216, 1) 0deg,
+            rgba(0, 240, 216, 0.8) 20deg,
+            rgba(0, 240, 216, 0.6) 40deg,
+            rgba(0, 240, 216, 0.4) 60deg,
+            rgba(0, 240, 216, 0.2) 80deg,
+            transparent 100deg);
+    mask-image: radial-gradient(circle,
+            transparent 35%,
+            black 36%,
+            black 48%,
+            transparent 49%);
+    -webkit-mask-image: radial-gradient(circle,
+            transparent 35%,
+            black 36%,
+            black 48%,
+            transparent 49%);
+    filter: blur(6px);
+    opacity: 1;
+    z-index: 1;
 }
 
-/* Trail effect for hands */
-.handTrail {
+/* Inner orb container */
+.innerOrb {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0.4;
-    filter: blur(4px);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%,
+            rgba(255, 255, 255, 0.3),
+            rgba(0, 240, 216, 0.15) 50%,
+            rgba(124, 76, 255, 0.2) 100%);
+    box-shadow:
+        0 0 40px rgba(0, 240, 216, 0.4),
+        0 0 80px rgba(124, 76, 255, 0.3),
+        inset 0 0 30px rgba(255, 255, 255, 0.15);
+    animation: orbPulse 4s ease-in-out infinite;
+    z-index: 8;
 }
 
-.hourHand .handTrail {
-    background: linear-gradient(to top, transparent, var(--accent2));
+/* Orb inner core */
+.orbCore {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 40%,
+            rgba(255, 255, 255, 0.95),
+            rgba(0, 240, 216, 0.6) 60%,
+            transparent 100%);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
 }
 
-.minuteHand .handTrail {
-    background: linear-gradient(to top, transparent, var(--accent1));
+/* Specular highlight that follows cursor */
+.specularHighlight {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            rgba(255, 255, 255, 0.4) 0%,
+            transparent 70%);
+    pointer-events: none;
+    transition: transform 0.15s ease-out;
+    filter: blur(8px);
+    z-index: 9;
 }
 
 /* Hand rotation keyframes */
@@ -148,190 +277,51 @@
     }
 }
 
-/* Hand pulse on click */
-.handPulse {
-    animation-duration: 3s !important;
-}
-
-.handPulse::before {
-    box-shadow: 0 0 30px var(--accent1), 0 0 60px var(--accent2), 0 0 90px rgba(255, 255, 255, 0.5) !important;
-}
-
-
-/* Rotating arc element */
-.arcSweep {
-    position: absolute;
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    background: conic-gradient(from 0deg,
-            transparent 0deg,
-            var(--accent1) 30deg,
-            var(--accent2) 90deg,
-            transparent 120deg);
-    mask-image: radial-gradient(circle,
-            transparent 42%,
-            black 43%,
-            black 48%,
-            transparent 49%);
-    -webkit-mask-image: radial-gradient(circle,
-            transparent 42%,
-            black 43%,
-            black 48%,
-            transparent 49%);
-    animation: arcRotate 8s linear infinite;
-    filter: blur(2px);
-    opacity: 0.9;
-}
-
-/* Arc glow overlay */
-.arcGlow {
-    position: absolute;
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    background: conic-gradient(from 0deg,
-            transparent 0deg,
-            rgba(0, 240, 216, 0.6) 30deg,
-            rgba(124, 76, 255, 0.6) 90deg,
-            transparent 120deg);
-    mask-image: radial-gradient(circle,
-            transparent 38%,
-            black 42%,
-            black 52%,
-            transparent 55%);
-    -webkit-mask-image: radial-gradient(circle,
-            transparent 38%,
-            black 42%,
-            black 52%,
-            transparent 55%);
-    animation: arcRotate 8s linear infinite;
-    filter: blur(20px);
-    opacity: 0.5;
-}
-
-/* Inner orb container */
-.innerOrb {
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%,
-            rgba(255, 255, 255, 0.2),
-            rgba(0, 240, 216, 0.1) 50%,
-            rgba(124, 76, 255, 0.15) 100%);
-    box-shadow:
-        0 0 60px rgba(0, 240, 216, 0.3),
-        0 0 120px rgba(124, 76, 255, 0.2),
-        inset 0 0 40px rgba(255, 255, 255, 0.1);
-    animation: orbPulse 4s ease-in-out infinite;
-}
-
-/* Orb inner core */
-.orbCore {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 40% 40%,
-            rgba(255, 255, 255, 0.9),
-            rgba(0, 240, 216, 0.5) 60%,
-            transparent 100%);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
-}
-
-/* Specular highlight that follows cursor */
-.specularHighlight {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: radial-gradient(circle,
-            rgba(255, 255, 255, 0.4) 0%,
-            transparent 70%);
-    pointer-events: none;
-    transition: transform 0.15s ease-out;
-    filter: blur(8px);
-}
-
-/* Keyframes */
-@keyframes arcRotate {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
 @keyframes orbPulse {
 
     0%,
     100% {
-        transform: scale(1);
+        transform: translate(-50%, -50%) scale(1);
         box-shadow:
-            0 0 60px rgba(0, 240, 216, 0.3),
-            0 0 120px rgba(124, 76, 255, 0.2),
-            inset 0 0 40px rgba(255, 255, 255, 0.1);
+            0 0 40px rgba(0, 240, 216, 0.4),
+            0 0 80px rgba(124, 76, 255, 0.3),
+            inset 0 0 30px rgba(255, 255, 255, 0.15);
     }
 
     50% {
-        transform: scale(1.05);
+        transform: translate(-50%, -50%) scale(1.05);
         box-shadow:
-            0 0 80px rgba(0, 240, 216, 0.5),
-            0 0 160px rgba(124, 76, 255, 0.3),
-            inset 0 0 50px rgba(255, 255, 255, 0.15);
+            0 0 50px rgba(0, 240, 216, 0.6),
+            0 0 100px rgba(124, 76, 255, 0.4),
+            inset 0 0 40px rgba(255, 255, 255, 0.2);
     }
 }
 
-/* Demo pulse animation (triggered on click) */
-@keyframes demoPulse {
-    0% {
-        transform: scale(1);
-        filter: blur(2px);
-    }
-
-    25% {
-        transform: scale(1.1);
-        filter: blur(4px);
-    }
-
-    50% {
-        transform: scale(1.15);
-        filter: blur(6px);
-    }
-
-    75% {
-        transform: scale(1.1);
-        filter: blur(4px);
-    }
-
-    100% {
-        transform: scale(1);
-        filter: blur(2px);
-    }
+/* Hand pulse on click */
+.handPulse .hourHand,
+.handPulse .minuteHand {
+    box-shadow:
+        0 0 40px var(--accent1),
+        0 0 80px var(--accent2),
+        0 0 120px rgba(255, 255, 255, 0.6) !important;
 }
 
-.arcSweepPulse {
-    animation: demoPulse 2s ease-out, arcRotate 4s linear infinite !important;
+.handPulse .hourTrail,
+.handPulse .minuteTrail {
+    opacity: 1 !important;
+    filter: blur(8px) !important;
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
 
-    .arcSweep,
-    .arcGlow {
+    .hourHandContainer,
+    .minuteHandContainer {
         animation: none;
-        transform: rotate(45deg);
     }
 
     .innerOrb {
         animation: none;
-    }
-
-    .arcSweepPulse {
-        animation: none !important;
     }
 }
 
