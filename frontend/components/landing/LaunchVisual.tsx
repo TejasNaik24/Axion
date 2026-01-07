@@ -59,22 +59,18 @@ export default function LaunchVisual({ className = "" }: LaunchVisualProps) {
         setTimeout(() => setIsPulsing(false), 2000);
     };
 
-    // Clock numbers positioned in a circle on the clock face
-    // Using percentage-based positioning relative to 320px clock
-    const clockNumbers = [
-        { num: 12, x: 50, y: 12 },   // top center
-        { num: 1, x: 70, y: 16 },
-        { num: 2, x: 84, y: 30 },
-        { num: 3, x: 88, y: 50 },    // right center
-        { num: 4, x: 84, y: 70 },
-        { num: 5, x: 70, y: 84 },
-        { num: 6, x: 50, y: 88 },    // bottom center
-        { num: 7, x: 30, y: 84 },
-        { num: 8, x: 16, y: 70 },
-        { num: 9, x: 12, y: 50 },    // left center
-        { num: 10, x: 16, y: 30 },
-        { num: 11, x: 30, y: 16 },
-    ];
+    // Clock numbers positioned in a circle - spread out towards the edge
+    const clockNumbers = Array.from({ length: 12 }, (_, i) => {
+        const num = i + 1;
+        const angle = (num * 30 - 90) * (Math.PI / 180);
+        const radius = 42; // Perfectly balanced position
+
+        return {
+            num,
+            x: 50 + radius * Math.cos(angle),
+            y: 50 + radius * Math.sin(angle),
+        };
+    });
 
     // If reduced motion, show static fallback
     if (shouldReduceMotion) {

@@ -13,7 +13,7 @@ import React from "react";
 export default function LaunchVisualPlaceholder() {
     return (
         <div
-            className="relative w-[320px] h-[320px] flex items-center justify-center"
+            className="relative w-[420px] h-[420px] flex items-center justify-center"
             aria-hidden="true"
         >
             {/* Static ring placeholder */}
@@ -27,7 +27,7 @@ export default function LaunchVisualPlaceholder() {
 
             {/* Static orb placeholder */}
             <div
-                className="w-24 h-24 rounded-full"
+                className="w-32 h-32 rounded-full"
                 style={{
                     background:
                         "radial-gradient(circle at 35% 35%, rgba(255,255,255,0.2), rgba(0,240,216,0.15) 50%, rgba(124,76,255,0.15) 100%)",

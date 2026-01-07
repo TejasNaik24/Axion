@@ -17,14 +17,14 @@
 
 "use client";
 
-import React, { Suspense } from "react";
+import React from "react";
 import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
 import LaunchContent from "./LaunchContent";
 import LaunchVisualPlaceholder from "./LaunchVisualPlaceholder";
 
 // Lazy-load the visual component to avoid heavy bundle
-const LaunchVisual = dynamic(() => import("./LaunchVisual"), {
+const LaunchVisual = dynamic<any>(() => import("./LaunchVisual"), {
     ssr: false,
     loading: () => <LaunchVisualPlaceholder />,
 });
@@ -102,9 +102,7 @@ export default function LaunchSection({
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                     {/* Left: Visual - centered, no negative margins */}
                     <div className="flex items-center justify-center order-2 lg:order-1">
-                        <Suspense fallback={<LaunchVisualPlaceholder />}>
-                            <LaunchVisual className="w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] md:w-[340px] md:h-[340px] lg:w-[380px] lg:h-[380px]" />
-                        </Suspense>
+                        <LaunchVisual className="w-[300px] h-[300px] sm:w-[360px] sm:h-[360px] md:w-[420px] md:h-[420px] lg:w-[480px] lg:h-[480px]" />
                     </div>
 
                     {/* Right: Content */}
