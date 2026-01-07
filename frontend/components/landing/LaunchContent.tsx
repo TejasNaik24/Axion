@@ -128,27 +128,6 @@ export default function LaunchContent({
                 </motion.div>
             </div>
 
-            {/* Trust line */}
-            <motion.p
-                variants={shouldReduceMotion ? {} : contentVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.3 }}
-                className="text-white/30 text-xs max-w-sm mb-6"
-            >
-                Backed by signal-driven retrieval and explainable recommendations.
-            </motion.p>
-
-            {/* Micro footer */}
-            <motion.p
-                variants={shouldReduceMotion ? {} : contentVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.3 }}
-                className="text-white/20 text-[10px] uppercase tracking-widest"
-            >
-                Axion · Built for engineers.
-            </motion.p>
         </div>
     );
 }

@@ -21,7 +21,11 @@
 
 import React, { useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import dynamic from "next/dynamic";
 import styles from "@/styles/launch.module.css";
+
+// Use dynamic import for Three.js component to ensure stability
+const AxionOrbMini = dynamic(() => import("@/components/landing/AxionOrbMini"), { ssr: false });
 
 interface LaunchVisualProps {
     className?: string;
@@ -33,23 +37,7 @@ export default function LaunchVisual({ className = "" }: LaunchVisualProps) {
     const highlightRef = useRef<HTMLDivElement>(null);
     const [isPulsing, setIsPulsing] = useState(false);
 
-    // Handle pointer move for specular highlight
-    const handlePointerMove = (e: React.PointerEvent) => {
-        if (shouldReduceMotion || !highlightRef.current || !containerRef.current)
-            return;
-
-        const rect = containerRef.current.getBoundingClientRect();
-        const x = e.clientX - rect.left - 40;
-        const y = e.clientY - rect.top - 40;
-
-        highlightRef.current.style.transform = `translate(${x}px, ${y}px)`;
-        highlightRef.current.style.opacity = "1";
-    };
-
     const handlePointerLeave = () => {
-        if (highlightRef.current) {
-            highlightRef.current.style.opacity = "0";
-        }
     };
 
     // Handle click for demo pulse
@@ -94,7 +82,6 @@ export default function LaunchVisual({ className = "" }: LaunchVisualProps) {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
             className={`${styles.dialContainer} ${className} cursor-pointer`}
-            onPointerMove={handlePointerMove}
             onPointerLeave={handlePointerLeave}
             onClick={handleClick}
             role="img"
@@ -141,21 +128,13 @@ export default function LaunchVisual({ className = "" }: LaunchVisualProps) {
                     <div className={styles.minuteHand} />
                 </div>
 
-                {/* Inner pulsing orb (center cap) */}
-                <motion.div
-                    className={styles.innerOrb}
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                >
-                    <div className={styles.orbCore} />
-                </motion.div>
+                {/* Center cap for hand connection */}
+                <div className={styles.handCap} />
 
-                {/* Specular highlight - follows cursor */}
-                <div
-                    ref={highlightRef}
-                    className={styles.specularHighlight}
-                    style={{ opacity: 0 }}
-                />
+                {/* Center interactive orb - forced size for stability */}
+                <div className={styles.miniOrbWrapper}>
+                    <AxionOrbMini className={styles.miniOrb} />
+                </div>
             </div>
 
             {/* Accessibility: hidden text for screen readers */}
