@@ -12,330 +12,187 @@
 
 /* Dial container */
 .dialContainer {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Fixed-size clock face - contains all clock elements */
 .clockFace {
-    position: relative;
-    width: 420px;
-    height: 420px;
-    flex-shrink: 0;
+  position: relative;
+  width: 420px;
+  height: 420px;
+  flex-shrink: 0;
 }
 
 /* Outer ring with tick marks */
 .outerRing {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 420px;
-    height: 420px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.08);
-    box-shadow:
-        inset 0 0 80px rgba(0, 240, 216, 0.05),
-        0 0 100px rgba(124, 76, 255, 0.08);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 80px rgba(0, 240, 216, 0.05),
+    0 0 100px rgba(124, 76, 255, 0.08);
 }
 
 /* Tick marks around the dial - many small ticks */
 .tickRing {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 420px;
-    height: 420px;
-    border-radius: 50%;
-    background: repeating-conic-gradient(from 0deg,
-            rgba(255, 255, 255, 0.45) 0deg,
-            rgba(255, 255, 255, 0.45) 0.5deg,
-            transparent 0.5deg,
-            transparent 6deg);
-    -webkit-mask-image: radial-gradient(circle at 210px 210px, transparent 196px, black 197px);
-    mask-image: radial-gradient(circle at 210px 210px, transparent 196px, black 197px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(255, 255, 255, 0.45) 0deg,
+    rgba(255, 255, 255, 0.45) 0.5deg,
+    transparent 0.5deg,
+    transparent 6deg
+  );
+  -webkit-mask-image: radial-gradient(
+    circle at 210px 210px,
+    transparent 196px,
+    black 197px
+  );
+  mask-image: radial-gradient(
+    circle at 210px 210px,
+    transparent 196px,
+    black 197px
+  );
 }
 
 /* Clock numbers - positioned explicitly inside the clock */
 .clockNumber {
-    position: absolute;
-    font-size: 18px;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.55);
-    font-family: system-ui, -apple-system, sans-serif;
-    text-shadow: 0 0 10px rgba(0, 240, 216, 0.5);
-    z-index: 10;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  font-size: 18px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.55);
+  font-family: system-ui, -apple-system, sans-serif;
+  text-shadow: 0 0 10px rgba(0, 240, 216, 0.5);
+  z-index: 10;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
 }
 
-/* Hour hand container - rotates to create trail effect */
-.hourHandContainer {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    transform-origin: center center;
-    animation: hourRotate 60s linear infinite;
-    z-index: 5;
-}
-
-/* Hour hand - the actual pointer */
-.hourHand {
-    position: absolute;
-    width: 6px;
-    height: 110px;
-    bottom: 50%;
-    left: calc(50% - 3px);
-    transform-origin: bottom center;
-    background: linear-gradient(to top,
-            transparent 0%,
-            rgba(124, 76, 255, 0.9) 15%,
-            rgba(160, 120, 255, 1) 50%,
-            rgba(200, 180, 255, 1) 100%);
-    border-radius: 3px;
-    box-shadow:
-        0 0 20px rgba(124, 76, 255, 0.8),
-        0 0 40px rgba(124, 76, 255, 0.6),
-        0 0 60px rgba(124, 76, 255, 0.4);
-    z-index: 2;
-}
-
-/* Hour trail - drawn/painted effect behind the hand */
-.hourTrail {
-    position: absolute;
-    width: 210px;
-    height: 210px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    background: conic-gradient(from 0deg,
-            rgba(124, 76, 255, 0.9) 0deg,
-            rgba(124, 76, 255, 0.7) 30deg,
-            rgba(124, 76, 255, 0.5) 60deg,
-            rgba(124, 76, 255, 0.3) 90deg,
-            rgba(124, 76, 255, 0.1) 120deg,
-            transparent 150deg);
-    mask-image: radial-gradient(circle,
-            transparent 30%,
-            black 31%,
-            black 45%,
-            transparent 46%);
-    -webkit-mask-image: radial-gradient(circle,
-            transparent 30%,
-            black 31%,
-            black 45%,
-            transparent 46%);
-    filter: blur(4px);
-    opacity: 0.9;
-    z-index: 1;
-}
-
-/* Minute hand container - rotates to create trail effect */
-.minuteHandContainer {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    transform-origin: center center;
-    animation: minuteRotate 12s linear infinite;
-    z-index: 6;
-}
-
-/* Minute hand - the actual pointer */
-.minuteHand {
-    position: absolute;
-    width: 5px;
-    height: 158px;
-    bottom: 50%;
-    left: calc(50% - 2.5px);
-    transform-origin: bottom center;
-    background: linear-gradient(to top,
-            transparent 0%,
-            rgba(0, 240, 216, 0.9) 10%,
-            rgba(50, 255, 235, 1) 50%,
-            rgba(150, 255, 245, 1) 100%);
-    border-radius: 2px;
-    box-shadow:
-        0 0 20px rgba(0, 240, 216, 1),
-        0 0 40px rgba(0, 240, 216, 0.7),
-        0 0 60px rgba(0, 240, 216, 0.5);
-    z-index: 2;
-}
-
-/* Minute trail - drawn/painted effect behind the hand */
-.minuteTrail {
-    position: absolute;
-    width: 316px;
-    height: 316px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    background: conic-gradient(from 0deg,
-            rgba(0, 240, 216, 1) 0deg,
-            rgba(0, 240, 216, 0.8) 20deg,
-            rgba(0, 240, 216, 0.6) 40deg,
-            rgba(0, 240, 216, 0.4) 60deg,
-            rgba(0, 240, 216, 0.2) 80deg,
-            transparent 100deg);
-    mask-image: radial-gradient(circle,
-            transparent 35%,
-            black 36%,
-            black 48%,
-            transparent 49%);
-    -webkit-mask-image: radial-gradient(circle,
-            transparent 35%,
-            black 36%,
-            black 48%,
-            transparent 49%);
-    filter: blur(6px);
-    opacity: 1;
-    z-index: 1;
+/* Canvas container for R3F hands and trails */
+.canvasContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  /* Between clock face elements (z-index: 1) and orb/cap (z-index: 7+) */
+  pointer-events: none;
 }
 
 /* Inner orb wrapper for the interactive 3D orb */
 .miniOrbWrapper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 160px;
-    height: 160px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 50;
-    /* Ensure it's way above the hands and cap */
-    pointer-events: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  /* Ensure it's way above the hands and cap */
+  pointer-events: auto;
 }
 
 /* Explicit class for the orb component itself */
 .miniOrb {
-    width: 160px !important;
-    height: 160px !important;
-    display: block;
+  width: 160px !important;
+  height: 160px !important;
+  display: block;
 }
 
 /* Center cap for hands - provides a solid connection point */
 .handCap {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 14px;
-    height: 14px;
-    background: #080a0f;
-    border: 2px solid rgba(255, 255, 255, 0.15);
-    border-radius: 50%;
-    z-index: 7;
-    /* On top of both hands, below the orb wrapper */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  background: #080a0f;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  z-index: 7;
+  /* On top of canvas, below the orb wrapper */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Hand rotation keyframes */
-@keyframes hourRotate {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes minuteRotate {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
+/* Orb pulse animation */
 @keyframes orbPulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 0 40px rgba(0, 240, 216, 0.4),
+      0 0 80px rgba(124, 76, 255, 0.3), inset 0 0 30px rgba(255, 255, 255, 0.15);
+  }
 
-    0%,
-    100% {
-        transform: translate(-50%, -50%) scale(1);
-        box-shadow:
-            0 0 40px rgba(0, 240, 216, 0.4),
-            0 0 80px rgba(124, 76, 255, 0.3),
-            inset 0 0 30px rgba(255, 255, 255, 0.15);
-    }
-
-    50% {
-        transform: translate(-50%, -50%) scale(1.05);
-        box-shadow:
-            0 0 50px rgba(0, 240, 216, 0.6),
-            0 0 100px rgba(124, 76, 255, 0.4),
-            inset 0 0 40px rgba(255, 255, 255, 0.2);
-    }
-}
-
-/* Hand pulse on click */
-.handPulse .hourHand,
-.handPulse .minuteHand {
-    box-shadow:
-        0 0 40px var(--accent1),
-        0 0 80px var(--accent2),
-        0 0 120px rgba(255, 255, 255, 0.6) !important;
-}
-
-.handPulse .hourTrail,
-.handPulse .minuteTrail {
-    opacity: 1 !important;
-    filter: blur(8px) !important;
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    box-shadow: 0 0 50px rgba(0, 240, 216, 0.6),
+      0 0 100px rgba(124, 76, 255, 0.4), inset 0 0 40px rgba(255, 255, 255, 0.2);
+  }
 }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
+  .canvasContainer {
+    display: none;
+    /* Hide R3F Canvas, show SVG fallback instead */
+  }
 
-    .hourHandContainer,
-    .minuteHandContainer {
-        animation: none;
-    }
-
-    .miniOrbWrapper {
-        display: block;
-        /* Ensure it stays or becomes static if needed, though canvas handles it */
-    }
+  .miniOrbWrapper {
+    display: block;
+  }
 }
 
 /* Static fallback container */
 .staticFallback {
-    position: relative;
-    width: 320px;
-    height: 320px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: relative;
+  width: 320px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .staticRing {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    background: radial-gradient(circle at 30% 30%,
-            rgba(0, 240, 216, 0.1),
-            rgba(124, 76, 255, 0.1) 70%,
-            transparent 100%);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(0, 240, 216, 0.1),
+    rgba(124, 76, 255, 0.1) 70%,
+    transparent 100%
+  );
 }
 
 .staticOrb {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%,
-            rgba(255, 255, 255, 0.3),
-            rgba(0, 240, 216, 0.2) 50%,
-            rgba(124, 76, 255, 0.2) 100%);
-    box-shadow:
-        0 0 40px rgba(0, 240, 216, 0.3),
-        0 0 80px rgba(124, 76, 255, 0.2);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 35%,
+    rgba(255, 255, 255, 0.3),
+    rgba(0, 240, 216, 0.2) 50%,
+    rgba(124, 76, 255, 0.2) 100%
+  );
+  box-shadow: 0 0 40px rgba(0, 240, 216, 0.3), 0 0 80px rgba(124, 76, 255, 0.2);
 }
