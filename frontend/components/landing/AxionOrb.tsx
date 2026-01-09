@@ -125,13 +125,12 @@ export default function AxionOrb() {
     >
       {/* Clean Gradient Aura */}
       <div
-        className={`absolute inset-0 rounded-full transition-all duration-1000 ${
-          isHovered ? "opacity-30" : "opacity-10"
-        }`}
+        className={`absolute inset-0 rounded-full transition-all duration-1000 ${isHovered ? "opacity-15" : "opacity-5"
+          }`}
         style={{
           background:
-            "radial-gradient(circle at center, var(--accent1) 0%, var(--accent2) 50%, transparent 70%)",
-          filter: "blur(80px)",
+            "radial-gradient(circle at center, var(--accent1) 0%, var(--accent2) 35%, transparent 45%)",
+          filter: "blur(40px)",
         }}
       />
 

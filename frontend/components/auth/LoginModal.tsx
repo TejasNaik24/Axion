@@ -192,8 +192,8 @@ export default function LoginModal() {
               <div className="relative flex py-2 items-center mt-6">
                 <div
                   className={`grow border-t transition-colors duration-300 ${isLoginHovered
-                      ? "border-white/30 shadow-[0_1px_8px_rgba(255,255,255,0.1)]"
-                      : "border-white/10"
+                    ? "border-white/30 shadow-[0_1px_8px_rgba(255,255,255,0.1)]"
+                    : "border-white/10"
                     }`}
                 ></div>
                 <span
@@ -204,8 +204,8 @@ export default function LoginModal() {
                 </span>
                 <div
                   className={`grow border-t transition-colors duration-300 ${isLoginHovered
-                      ? "border-white/30 shadow-[0_1px_8px_rgba(255,255,255,0.1)]"
-                      : "border-white/10"
+                    ? "border-white/30 shadow-[0_1px_8px_rgba(255,255,255,0.1)]"
+                    : "border-white/10"
                     }`}
                 ></div>
               </div>

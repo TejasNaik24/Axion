@@ -68,14 +68,16 @@ export const HeroLayout: React.FC = () => {
   }, [controls]);
 
   return (
-    <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">
-      {/* Scan line effect */}
-      <motion.div
-        initial={{ top: "-100%" }}
-        animate={{ top: "200%" }}
-        transition={{ duration: 1.5, ease: "easeInOut", delay: 0 }}
-        className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent1 to-transparent opacity-30 pointer-events-none z-20"
-      />
+    <section className="relative min-h-[95vh] flex items-center pt-24 pb-12">
+      {/* Scan line effect - contained so it doesn't bleed out, but allows section glows to escape */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-20">
+        <motion.div
+          initial={{ top: "-100%" }}
+          animate={{ top: "200%" }}
+          transition={{ duration: 1.5, ease: "easeInOut", delay: 0 }}
+          className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent1 to-transparent opacity-30"
+        />
+      </div>
 
       <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left Content */}
@@ -199,7 +201,7 @@ export const HeroLayout: React.FC = () => {
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.7, duration: 1.5 }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] h-[130%] bg-accent2/20 blur-[100px] rounded-full pointer-events-none"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%] bg-accent2/10 blur-[60px] rounded-full pointer-events-none"
             />
             <Suspense fallback={null}>
               <AxionOrb />
