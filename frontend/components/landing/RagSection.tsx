@@ -179,21 +179,26 @@ export default function RagSection() {
           </h2>
           <div className="h-1 w-20 bg-accent2 rounded-full mx-auto mb-6" />
           <p
-            className="text-2xl md:text-3xl font-bold tracking-wide"
-            style={{
-              background:
-                "linear-gradient(90deg, rgba(124,76,255,1) 0%, rgba(0,240,216,1) 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-              filter:
-                typedText.length > 0
-                  ? "drop-shadow(0 0 20px rgba(124,76,255,0.5)) drop-shadow(0 0 40px rgba(0,240,216,0.3))"
-                  : "none",
-              minHeight: "3rem",
-            }}
+            className="text-2xl md:text-3xl font-bold tracking-wide min-h-[3rem]"
           >
-            {typedText}
+            <motion.span
+              initial={{ backgroundPosition: "0% 50%" }}
+              animate={
+                typedText === fullText
+                  ? { backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }
+                  : { backgroundPosition: "0% 50%" }
+              }
+              transition={{ duration: 3, delay: 0.2, repeat: Infinity, repeatDelay: 4 }}
+              className="bg-gradient-to-r from-white/90 via-accent2 to-white/90 bg-clip-text text-transparent bg-[length:200%_100%] transition-all duration-1000"
+              style={{
+                filter:
+                  typedText.length > 0
+                    ? "drop-shadow(0 0 20px rgba(124,76,255,0.3))"
+                    : "none",
+              }}
+            >
+              {typedText}
+            </motion.span>
           </p>
         </motion.div>
 
