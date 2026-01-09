@@ -1,18 +1,15 @@
 /**
  * ClockTrail Component
  *
- * Purpose: Renders a thin, animated trail behind a clock hand tip
+ * Purpose: Renders a thick, animated ribbon trail behind a clock hand tip
+ * - Improved from simple Line to Mesh-based ribbon for better visibility
  * - Samples hand tip position each frame (world space)
- * - Maintains circular buffer of MAX_SAMPLES positions
+ * - Generates quad-strip geometry with thickness
  * - Updates BufferGeometry with position and alpha attributes
  * - Uses additive blending for soft glow effect
  * - Renders behind hands (renderOrder = 0)
  *
- * Performance: MAX_SAMPLES = 40, reuses Vector3 objects, mutates BufferAttributes directly
- *
- * NOTE: do not create new Vector3 inside useFrame (reuse objects)
- * TODO: switch to Line2 or MeshLine if linewidth is required across platforms
- * TODO: connect trail color dynamics to AxionParticle.state (retrieving -> stronger glow)
+ * Performance: reuses Vector3 objects, mutates BufferAttributes directly
  */
 
 "use client";
@@ -21,58 +18,71 @@ import React, { useRef, useMemo, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-const MAX_SAMPLES = 40;
-const FADE_EXPONENT = 1.6;
+const FADE_EXPONENT = 1.1;
 
 interface ClockTrailProps {
-  handRef: React.RefObject<THREE.Mesh>;
+  handRef: React.RefObject<THREE.Mesh | null | undefined>;
   handLength: number;
   color: string;
   thickness?: number;
+  maxSamples?: number;
 }
 
 export default function ClockTrail({
   handRef,
   handLength,
   color,
-  thickness = 1.5,
+  thickness = 0.05, // Default thickness in Three.js units
+  maxSamples = 80,
 }: ClockTrailProps) {
-  const lineRef = useRef<THREE.Line>(null);
+  const meshRef = useRef<THREE.Mesh>(null);
 
-  // Reusable Vector3 objects to avoid allocations in useFrame
+  // Reusable Vector3 and Matrix4 objects to avoid allocations in useFrame
   const tipLocal = useMemo(() => new THREE.Vector3(), []);
   const tipWorld = useMemo(() => new THREE.Vector3(), []);
   const smoothedTip = useMemo(() => new THREE.Vector3(), []);
+  const lastPosition = useMemo(() => new THREE.Vector3(), []);
+  const direction = useMemo(() => new THREE.Vector3(), []);
+  const side = useMemo(() => new THREE.Vector3(), []);
+  const up = useMemo(() => new THREE.Vector3(0, 0, 1), []);
 
   // Circular buffer state
-  const bufferIndex = useRef(0);
   const initialized = useRef(false);
 
   // Create geometry and material
-  const { geometry, material, line } = useMemo(() => {
-    // Positions buffer (x,y,z for each sample)
-    const positions = new Float32Array(MAX_SAMPLES * 3);
-    const alphas = new Float32Array(MAX_SAMPLES);
+  const { geometry, material } = useMemo(() => {
+    // Ribbon logic: 2 vertices per sample point to create a quad strip
+    const positions = new Float32Array(maxSamples * 2 * 3);
+    const alphas = new Float32Array(maxSamples * 2);
+    const indices = new Uint16Array((maxSamples - 1) * 6);
 
-    // Initialize with zeros
-    for (let i = 0; i < MAX_SAMPLES; i++) {
-      positions[i * 3] = 0;
-      positions[i * 3 + 1] = 0;
-      positions[i * 3 + 2] = -0.001; // Slightly behind to ensure trail is behind hands
-      alphas[i] = 0;
+    // Initialize indices for quad strip triangles
+    for (let i = 0; i < maxSamples - 1; i++) {
+      const v0 = i * 2;
+      const v1 = v0 + 1;
+      const v2 = v0 + 2;
+      const v3 = v0 + 3;
+
+      // Two triangles per segment
+      indices[i * 6] = v0;
+      indices[i * 6 + 1] = v1;
+      indices[i * 6 + 2] = v2;
+      indices[i * 6 + 3] = v2;
+      indices[i * 6 + 4] = v1;
+      indices[i * 6 + 5] = v3;
     }
 
     const geo = new THREE.BufferGeometry();
+    geo.setIndex(new THREE.BufferAttribute(indices, 1));
     const posAttr = new THREE.BufferAttribute(positions, 3);
     const alphaAttr = new THREE.BufferAttribute(alphas, 1);
 
-    posAttr.setUsage(THREE.DynamicDrawUsage);
-    alphaAttr.setUsage(THREE.DynamicDrawUsage);
+    posAttr.usage = THREE.DynamicDrawUsage;
+    alphaAttr.usage = THREE.DynamicDrawUsage;
 
     geo.setAttribute("position", posAttr);
     geo.setAttribute("alpha", alphaAttr);
 
-    // Material with vertex colors for alpha fade
     const mat = new THREE.ShaderMaterial({
       uniforms: {
         uColor: { value: new THREE.Color(color) },
@@ -83,8 +93,7 @@ export default function ClockTrail({
         
         void main() {
           vAlpha = alpha;
-          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          gl_Position = projectionMatrix * mvPosition;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
       `,
       fragmentShader: `
@@ -92,78 +101,93 @@ export default function ClockTrail({
         varying float vAlpha;
         
         void main() {
-          // Soft glow with alpha fade
-          vec3 finalColor = uColor * (1.0 + vAlpha * 0.5);
-          gl_FragColor = vec4(finalColor, vAlpha);
+          // Stronger glowing beam with soft falloff
+          vec3 bloom = uColor * 2.5;
+          gl_FragColor = vec4(bloom, vAlpha * 0.9);
         }
       `,
       transparent: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
       depthTest: true,
-      toneMapped: false,
+      side: THREE.DoubleSide,
     });
 
-    // Create the Line object
-    const lineObj = new THREE.Line(geo, mat);
-    lineObj.renderOrder = 0; // Render behind hands
+    return { geometry: geo, material: mat };
+  }, [color, maxSamples]);
 
-    return { geometry: geo, material: mat, line: lineObj };
-  }, [color]);
-
-  // Initialize smoothedTip position on first valid hand position
+  // Initialize positions on first valid frame
   useEffect(() => {
     if (!handRef.current || initialized.current) return;
 
-    // Compute initial tip position
     tipLocal.set(handLength, 0, 0);
     tipWorld.copy(tipLocal);
     handRef.current.localToWorld(tipWorld);
     smoothedTip.copy(tipWorld);
+    lastPosition.copy(tipWorld);
     initialized.current = true;
-  }, [handRef, handLength, tipLocal, tipWorld, smoothedTip]);
+  }, [handRef, handLength, tipLocal, tipWorld, smoothedTip, lastPosition]);
 
   useFrame(() => {
     if (!handRef.current || !initialized.current) return;
 
-    // Compute tip world position
+    // Get current tip position
     tipLocal.set(handLength, 0, 0);
     tipWorld.copy(tipLocal);
     handRef.current.localToWorld(tipWorld);
 
-    // Smooth the tip position to avoid jitter
-    smoothedTip.lerp(tipWorld, 0.25);
+    // Only update trail if we've moved significantly to avoid "tiny dots" jitter
+    const moveDist = tipWorld.distanceTo(lastPosition);
+    if (moveDist < 0.001) return;
 
-    // Update circular buffer
+    // Smooth movement for the "history"
+    smoothedTip.lerp(tipWorld, 0.4);
+
     const posAttr = geometry.getAttribute("position") as THREE.BufferAttribute;
     const alphaAttr = geometry.getAttribute("alpha") as THREE.BufferAttribute;
     const positions = posAttr.array as Float32Array;
     const alphas = alphaAttr.array as Float32Array;
 
-    // Shift all samples back by one (oldest falls off)
-    for (let i = MAX_SAMPLES - 1; i > 0; i--) {
-      const srcIdx = (i - 1) * 3;
-      const dstIdx = i * 3;
-      positions[dstIdx] = positions[srcIdx];
-      positions[dstIdx + 1] = positions[srcIdx + 1];
-      positions[dstIdx + 2] = positions[srcIdx + 2];
-      alphas[i] = alphas[i - 1];
+    // Shift samples back (oldest falls off)
+    for (let i = maxSamples - 1; i > 0; i--) {
+      const srcIdx = (i - 1) * 2 * 3;
+      const dstIdx = i * 2 * 3;
+      for (let j = 0; j < 6; j++) {
+        positions[dstIdx + j] = positions[srcIdx + j];
+      }
+      alphas[i * 2] = alphas[(i - 1) * 2];
+      alphas[i * 2 + 1] = alphas[(i - 1) * 2 + 1];
     }
 
-    // Insert new sample at index 0 (newest)
-    positions[0] = smoothedTip.x;
-    positions[1] = smoothedTip.y;
-    positions[2] = smoothedTip.z - 0.001; // Slightly behind
+    // Calculate perpendicular "side" vector for thickness
+    direction.subVectors(tipWorld, lastPosition).normalize();
+    if (direction.lengthSq() < 0.0001) {
+      direction.set(0, 1, 0); // Default direction
+    }
+    side.crossVectors(direction, up).normalize().multiplyScalar(thickness * 0.5);
 
-    // Update alpha fade: newest = 1.0, oldest = 0
-    for (let i = 0; i < MAX_SAMPLES; i++) {
-      const t = i / (MAX_SAMPLES - 1);
-      alphas[i] = Math.pow(1 - t, FADE_EXPONENT);
+    // Insert new points at ribbon head (index 0 and 1)
+    // CRITICAL: use tipWorld (raw) for the header to ENSURE IT TOUCHES THE HAND
+    positions[0] = tipWorld.x + side.x;
+    positions[1] = tipWorld.y + side.y;
+    positions[2] = tipWorld.z - 0.01;
+
+    positions[3] = tipWorld.x - side.x;
+    positions[4] = tipWorld.y - side.y;
+    positions[5] = tipWorld.z - 0.01;
+
+    // Update alpha fade
+    for (let i = 0; i < maxSamples; i++) {
+      const t = i / (maxSamples - 1);
+      const alphaVal = Math.pow(1 - t, FADE_EXPONENT);
+      alphas[i * 2] = alphaVal;
+      alphas[i * 2 + 1] = alphaVal;
     }
 
+    lastPosition.copy(tipWorld);
     posAttr.needsUpdate = true;
     alphaAttr.needsUpdate = true;
   });
 
-  return <primitive object={line} ref={lineRef} />;
+  return <mesh ref={meshRef} geometry={geometry} material={material} renderOrder={0} />;
 }

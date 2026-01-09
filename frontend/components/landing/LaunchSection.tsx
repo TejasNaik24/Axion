@@ -73,7 +73,7 @@ export default function LaunchSection({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden"
+            className="relative w-full pt-16 md:pt-20 lg:pt-24 overflow-hidden"
             aria-labelledby="launch-heading"
         >
             {/* Background glow effects */}

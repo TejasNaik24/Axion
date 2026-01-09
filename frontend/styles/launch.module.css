@@ -49,23 +49,17 @@
   width: 420px;
   height: 420px;
   border-radius: 50%;
-  background: repeating-conic-gradient(
-    from 0deg,
-    rgba(255, 255, 255, 0.45) 0deg,
-    rgba(255, 255, 255, 0.45) 0.5deg,
-    transparent 0.5deg,
-    transparent 6deg
-  );
-  -webkit-mask-image: radial-gradient(
-    circle at 210px 210px,
-    transparent 196px,
-    black 197px
-  );
-  mask-image: radial-gradient(
-    circle at 210px 210px,
-    transparent 196px,
-    black 197px
-  );
+  background: repeating-conic-gradient(from 0deg,
+      rgba(255, 255, 255, 0.45) 0deg,
+      rgba(255, 255, 255, 0.45) 0.5deg,
+      transparent 0.5deg,
+      transparent 6deg);
+  -webkit-mask-image: radial-gradient(circle at 210px 210px,
+      transparent 196px,
+      black 197px);
+  mask-image: radial-gradient(circle at 210px 210px,
+      transparent 196px,
+      black 197px);
 }
 
 /* Clock numbers - positioned explicitly inside the clock */
@@ -134,6 +128,7 @@
 
 /* Orb pulse animation */
 @keyframes orbPulse {
+
   0%,
   100% {
     transform: translate(-50%, -50%) scale(1);
@@ -176,23 +171,19 @@
   height: 100%;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.1);
-  background: radial-gradient(
-    circle at 30% 30%,
-    rgba(0, 240, 216, 0.1),
-    rgba(124, 76, 255, 0.1) 70%,
-    transparent 100%
-  );
+  background: radial-gradient(circle at 30% 30%,
+      rgba(0, 240, 216, 0.1),
+      rgba(124, 76, 255, 0.1) 70%,
+      transparent 100%);
 }
 
 .staticOrb {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle at 35% 35%,
-    rgba(255, 255, 255, 0.3),
-    rgba(0, 240, 216, 0.2) 50%,
-    rgba(124, 76, 255, 0.2) 100%
-  );
+  background: radial-gradient(circle at 35% 35%,
+      rgba(255, 255, 255, 0.3),
+      rgba(0, 240, 216, 0.2) 50%,
+      rgba(124, 76, 255, 0.2) 100%);
   box-shadow: 0 0 40px rgba(0, 240, 216, 0.3), 0 0 80px rgba(124, 76, 255, 0.2);
 }

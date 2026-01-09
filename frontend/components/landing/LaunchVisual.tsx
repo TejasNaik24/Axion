@@ -53,8 +53,8 @@ function ClockHands({ isPulsing }: { isPulsing: boolean }) {
     const t = state.clock.getElapsedTime();
 
     if (hourHandRef.current) {
-      // Hour hand: full rotation in 60 seconds
-      hourHandRef.current.rotation.z = -t * (Math.PI / 30);
+      // Hour hand: full rotation in 40 seconds (slightly faster)
+      hourHandRef.current.rotation.z = -t * (Math.PI / 20);
     }
 
     if (minuteHandRef.current) {
@@ -85,8 +85,9 @@ function ClockHands({ isPulsing }: { isPulsing: boolean }) {
       <ClockTrail
         handRef={hourHandRef}
         handLength={HOUR_HAND_LENGTH}
-        color="#7c4cff"
-        thickness={1.2}
+        color="#a080ff"
+        thickness={0.1}
+        maxSamples={300}
       />
 
       {/* Minute hand trails - rendered behind hands */}
@@ -94,7 +95,8 @@ function ClockHands({ isPulsing }: { isPulsing: boolean }) {
         handRef={minuteHandRef}
         handLength={MINUTE_HAND_LENGTH}
         color="#00f0d8"
-        thickness={1.0}
+        thickness={0.08}
+        maxSamples={60}
       />
 
       {/* Hour hand mesh */}
@@ -132,7 +134,7 @@ export default function LaunchVisual({ className = "" }: LaunchVisualProps) {
   const highlightRef = useRef<HTMLDivElement>(null);
   const [isPulsing, setIsPulsing] = useState(false);
 
-  const handlePointerLeave = () => {};
+  const handlePointerLeave = () => { };
 
   // Handle click for demo pulse
   const handleClick = () => {
