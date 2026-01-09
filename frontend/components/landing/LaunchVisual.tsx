@@ -85,9 +85,10 @@ function ClockHands({ isPulsing }: { isPulsing: boolean }) {
       <ClockTrail
         handRef={hourHandRef}
         handLength={HOUR_HAND_LENGTH}
-        color="#a080ff"
-        thickness={0.1}
+        color="#7C4CFF"
+        thickness={0.03}
         maxSamples={300}
+        tipOffset={0.002}
       />
 
       {/* Minute hand trails - rendered behind hands */}
@@ -95,15 +96,16 @@ function ClockHands({ isPulsing }: { isPulsing: boolean }) {
         handRef={minuteHandRef}
         handLength={MINUTE_HAND_LENGTH}
         color="#00f0d8"
-        thickness={0.08}
+        thickness={0.03}
         maxSamples={60}
+        tipOffset={0.018}
       />
 
       {/* Hour hand mesh */}
       <mesh ref={hourHandRef} renderOrder={1}>
         <primitive object={hourHandGeometry} />
         <meshBasicMaterial
-          color="#a080ff"
+          color="#7C4CFF"
           toneMapped={false}
           transparent
           opacity={0.95}
@@ -114,7 +116,7 @@ function ClockHands({ isPulsing }: { isPulsing: boolean }) {
       <mesh ref={minuteHandRef} renderOrder={1}>
         <primitive object={minuteHandGeometry} />
         <meshBasicMaterial
-          color="#32ffeb"
+          color="#00f0d8"
           toneMapped={false}
           transparent
           opacity={0.95}

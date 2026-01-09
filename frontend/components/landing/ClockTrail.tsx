@@ -26,6 +26,7 @@ interface ClockTrailProps {
   color: string;
   thickness?: number;
   maxSamples?: number;
+  tipOffset?: number;
 }
 
 export default function ClockTrail({
@@ -34,6 +35,7 @@ export default function ClockTrail({
   color,
   thickness = 0.05, // Default thickness in Three.js units
   maxSamples = 80,
+  tipOffset = 0,
 }: ClockTrailProps) {
   const meshRef = useRef<THREE.Mesh>(null);
 
@@ -120,7 +122,7 @@ export default function ClockTrail({
   useEffect(() => {
     if (!handRef.current || initialized.current) return;
 
-    tipLocal.set(handLength, 0, 0);
+    tipLocal.set(handLength + tipOffset, 0, 0);
     tipWorld.copy(tipLocal);
     handRef.current.localToWorld(tipWorld);
     smoothedTip.copy(tipWorld);
@@ -132,7 +134,7 @@ export default function ClockTrail({
     if (!handRef.current || !initialized.current) return;
 
     // Get current tip position
-    tipLocal.set(handLength, 0, 0);
+    tipLocal.set(handLength + tipOffset, 0, 0);
     tipWorld.copy(tipLocal);
     handRef.current.localToWorld(tipWorld);
 
@@ -170,11 +172,11 @@ export default function ClockTrail({
     // CRITICAL: use tipWorld (raw) for the header to ENSURE IT TOUCHES THE HAND
     positions[0] = tipWorld.x + side.x;
     positions[1] = tipWorld.y + side.y;
-    positions[2] = tipWorld.z - 0.01;
+    positions[2] = tipWorld.z - 0.08;
 
     positions[3] = tipWorld.x - side.x;
     positions[4] = tipWorld.y - side.y;
-    positions[5] = tipWorld.z - 0.01;
+    positions[5] = tipWorld.z - 0.08;
 
     // Update alpha fade
     for (let i = 0; i < maxSamples; i++) {
