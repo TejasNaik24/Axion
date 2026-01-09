@@ -37,7 +37,7 @@ export default function LoginModal() {
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [isLoginHovered, setIsLoginHovered] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Auto-focus first OTP box when entering verification step
   useEffect(() => {
@@ -93,11 +93,20 @@ export default function LoginModal() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!email) {
-      setError(true);
+      setError("Enter email address");
       return;
     }
-    setError(false);
+
+    // Basic email regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Enter valid email address");
+      return;
+    }
+
+    setError(null);
     // Transition to verification step
     setStep("verification");
   };
@@ -141,7 +150,7 @@ export default function LoginModal() {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="relative z-10 w-full">
+        <form onSubmit={handleSubmit} noValidate className="relative z-10 w-full">
           {step === "email" ? (
             <>
               {/* Email field container - reserved space for error to prevent layout shift */}
@@ -158,7 +167,7 @@ export default function LoginModal() {
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
-                    if (e.target.value) setError(false);
+                    if (e.target.value) setError(null);
                   }}
                   onKeyDown={handleKeyDown}
                   placeholder="name@school-or-work.com"
@@ -171,7 +180,7 @@ export default function LoginModal() {
                 />
                 {error && (
                   <p className="absolute bottom-0 left-0 text-xs text-accent2 font-medium">
-                    Enter email address
+                    {error}
                   </p>
                 )}
               </div>

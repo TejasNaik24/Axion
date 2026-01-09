@@ -47,6 +47,7 @@ export default function SocialButton({
 
   return (
     <motion.button
+      type="button"
       onClick={onClick || (() => console.log(`${provider} sign-in clicked`))}
       whileHover={
         shouldReduceMotion
