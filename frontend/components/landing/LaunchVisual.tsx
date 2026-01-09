@@ -18,7 +18,7 @@
 
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { motion, useReducedMotion } from "framer-motion";
 import dynamic from "next/dynamic";
@@ -35,7 +35,7 @@ const AxionOrbMini = dynamic(
 
 // Clock hand lengths (in Three.js units, scaled to match 420px clock face)
 const HOUR_HAND_LENGTH = 0.52; // ~110px at scale
-const MINUTE_HAND_LENGTH = 0.75; // ~158px at scale
+const MINUTE_HAND_LENGTH = 0.68; // Shortened for better balance
 const HAND_WIDTH = 0.03;
 
 /**
@@ -63,21 +63,21 @@ function ClockHands({ isPulsing }: { isPulsing: boolean }) {
     }
   });
 
-  // Hand geometry: rectangle from origin to tip
-  const hourHandGeometry = new THREE.BoxGeometry(
-    HOUR_HAND_LENGTH,
-    HAND_WIDTH,
-    0.01
-  );
-  const minuteHandGeometry = new THREE.BoxGeometry(
-    MINUTE_HAND_LENGTH,
-    HAND_WIDTH * 0.8,
-    0.01
-  );
+  // Hand geometries: stabilized with useMemo to prevent centering drift
+  const { hourHandGeometry, minuteHandGeometry } = useMemo(() => {
+    const hourGeo = new THREE.BoxGeometry(HOUR_HAND_LENGTH, HAND_WIDTH, 0.01);
+    const minuteGeo = new THREE.BoxGeometry(
+      MINUTE_HAND_LENGTH,
+      HAND_WIDTH * 0.8,
+      0.01
+    );
 
-  // Shift geometry so origin is at base (not center)
-  hourHandGeometry.translate(HOUR_HAND_LENGTH / 2, 0, 0);
-  minuteHandGeometry.translate(MINUTE_HAND_LENGTH / 2, 0, 0);
+    // Shift geometries so origin is at base (not center)
+    hourGeo.translate(HOUR_HAND_LENGTH / 2, 0, 0);
+    minuteGeo.translate(MINUTE_HAND_LENGTH / 2, 0, 0);
+
+    return { hourHandGeometry: hourGeo, minuteHandGeometry: minuteGeo };
+  }, []);
 
   return (
     <group>
@@ -88,7 +88,7 @@ function ClockHands({ isPulsing }: { isPulsing: boolean }) {
         color="#7C4CFF"
         thickness={0.03}
         maxSamples={300}
-        tipOffset={0.002}
+        tipOffset={0.007}
       />
 
       {/* Minute hand trails - rendered behind hands */}
@@ -98,7 +98,7 @@ function ClockHands({ isPulsing }: { isPulsing: boolean }) {
         color="#00f0d8"
         thickness={0.03}
         maxSamples={60}
-        tipOffset={0.018}
+        tipOffset={0.014}
       />
 
       {/* Hour hand mesh */}
