@@ -52,7 +52,7 @@ export default function Home() {
         <div className="flex flex-col gap-28">
           <LaunchSection />
           <footer className="container mx-auto px-6 pt-0 pb-6">
-            <div className="flex flex-col md:flex-row items-center justify-center gap-12 opacity-60 hover:opacity-100 transition-opacity duration-300">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-12 opacity-60">
               <div className="text-xs text-white/40 text-center">
                 Opinionated, engineer-first guidance — curated resources &
                 signal-driven advice.
