@@ -52,12 +52,12 @@ export default function SocialButton({
         shouldReduceMotion
           ? {}
           : {
-              scale: 1.01,
-              transition: { duration: 0.2 },
-            }
+            scale: 1.01,
+            transition: { duration: 0.2 },
+          }
       }
       whileTap={shouldReduceMotion ? {} : { scale: 0.99 }}
-      className="relative w-full h-10 rounded-md bg-white/3 border border-white/5 flex items-center justify-center gap-2 text-white/80 font-medium text-[13px] transition-all duration-200 hover:bg-white/6 hover:border-white/15 focus:outline-none focus:ring-1 focus:ring-white/20 group overflow-hidden cursor-pointer"
+      className="relative w-full h-10 rounded-md bg-white/3 border border-white/5 flex items-center justify-center gap-2 text-white font-medium text-[13px] transition-all duration-200 hover:bg-white/6 hover:border-white/15 focus:outline-none focus:ring-1 focus:ring-white/20 group overflow-hidden cursor-pointer"
       style={{
         ["--accent-color" as string]: accentColor,
       }}

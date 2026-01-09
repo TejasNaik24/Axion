@@ -22,8 +22,7 @@ import React, { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
-import { FcGoogle } from "react-icons/fc";
-import { FaMicrosoft } from "react-icons/fa";
+import { FaGoogle, FaMicrosoft } from "react-icons/fa6";
 
 import AxionOrbMini from "@/components/landing/AxionOrbMini";
 import GlowingButton from "@/components/landing/GlowingButton";
@@ -162,11 +161,9 @@ export default function SignUpModal() {
                   }}
                   onKeyDown={handleKeyDown}
                   placeholder="name@school-or-work.com"
-                  className={`${
-                    styles.authInput
-                  } w-full px-4 py-3 rounded-lg text-base transition-colors duration-200 ${
-                    error ? "border-accent2 ring-1 ring-accent2/50" : ""
-                  }`}
+                  className={`${styles.authInput
+                    } w-full px-4 py-3 rounded-lg text-base transition-colors duration-200 ${error ? "border-accent2 ring-1 ring-accent2/50" : ""
+                    }`}
                   aria-label="Email address"
                   autoComplete="email"
                   autoFocus
@@ -193,25 +190,22 @@ export default function SignUpModal() {
               {/* Divider */}
               <div className="relative flex py-2 items-center mt-6">
                 <div
-                  className={`grow border-t transition-colors duration-300 ${
-                    isLoginHovered
+                  className={`grow border-t transition-colors duration-300 ${isLoginHovered
                       ? "border-white/30 shadow-[0_1px_8px_rgba(255,255,255,0.1)]"
                       : "border-white/10"
-                  }`}
+                    }`}
                 ></div>
                 <span
-                  className={`shrink-0 mx-4 text-xs uppercase tracking-wider transition-colors duration-300 ${
-                    isLoginHovered ? "text-white/60" : "text-white/30"
-                  }`}
+                  className={`shrink-0 mx-4 text-xs uppercase tracking-wider transition-colors duration-300 ${isLoginHovered ? "text-white/60" : "text-white/30"
+                    }`}
                 >
                   Or
                 </span>
                 <div
-                  className={`grow border-t transition-colors duration-300 ${
-                    isLoginHovered
+                  className={`grow border-t transition-colors duration-300 ${isLoginHovered
                       ? "border-white/30 shadow-[0_1px_8px_rgba(255,255,255,0.1)]"
                       : "border-white/10"
-                  }`}
+                    }`}
                 ></div>
               </div>
 
@@ -219,7 +213,7 @@ export default function SignUpModal() {
               <div className="grid grid-cols-2 gap-4">
                 <SocialButton
                   provider="google"
-                  icon={FcGoogle}
+                  icon={FaGoogle}
                   isReflected={isLoginHovered}
                   action="sign-up"
                 />
