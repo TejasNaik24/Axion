@@ -81,7 +81,7 @@ export default function TopNav({
             <div className="relative z-10 w-8 h-8">
               <AxionOrbMini />
             </div>
-            <span className="font-bold text-lg tracking-tight text-white group-hover:text-accent1 transition-colors">
+            <span className="font-bold text-lg tracking-tight text-white group-hover:text-accent2 transition-colors">
               Axion
             </span>
           </Link>
