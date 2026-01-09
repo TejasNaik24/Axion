@@ -49,7 +49,7 @@ const MOCK_BLOCKS = [
 ];
 
 export default function PowerSandbox() {
-  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const prefersReducedMotion = usePrefersReducedMotion();
 
   const containerVariants = {
@@ -84,7 +84,15 @@ export default function PowerSandbox() {
     };
 
   const handleToggle = (id: string) => {
-    setExpandedId(expandedId === id ? null : id);
+    setExpandedIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent, id: string) => {
@@ -126,7 +134,7 @@ export default function PowerSandbox() {
                 tabIndex={0}
                 onClick={() => handleToggle(block.id)}
                 onKeyDown={(e) => handleKeyDown(e, block.id)}
-                aria-expanded={expandedId === block.id}
+                aria-expanded={expandedIds.has(block.id)}
                 aria-controls={`detail-${block.id}`}
                 className="rounded-xl bg-[rgba(255,255,255,0.03)] border border-white/8 backdrop-blur-lg p-6 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-accent2 transition-all flex flex-col"
                 style={{
@@ -170,15 +178,15 @@ export default function PowerSandbox() {
 
                 {/* Expand indicator */}
                 <div className={`mt-4 text-xs font-medium ${(block.id === 'b2' || block.id === 'b3')
-                    ? (expandedId === block.id ? 'text-accent1' : 'text-accent2')
-                    : (expandedId === block.id ? 'text-accent2' : 'text-accent1')
+                  ? (expandedIds.has(block.id) ? 'text-accent1' : 'text-accent2')
+                  : (expandedIds.has(block.id) ? 'text-accent2' : 'text-accent1')
                   }`}>
-                  {expandedId === block.id ? "Collapse ↑" : "Expand ↓"}
+                  {expandedIds.has(block.id) ? "Collapse ↑" : "Expand ↓"}
                 </div>
 
                 {/* Expanded Detail - Inside the card */}
                 <AnimatePresence>
-                  {expandedId === block.id && (
+                  {expandedIds.has(block.id) && (
                     <motion.div
                       id={`detail-${block.id}`}
                       initial={{ height: 0, opacity: 0 }}
