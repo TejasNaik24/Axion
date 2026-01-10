@@ -53,24 +53,24 @@ export default function WelcomeIntro({
                 containerControls.start({ opacity: 1 });
             }
 
-            // 3. Orb hovers alone (Balanced 0.8s)
-            await new Promise((r) => setTimeout(r, 800));
+            // 3. Orb hovers alone (Balanced 1.4s)
+            await new Promise((r) => setTimeout(r, 1400));
 
-            // 4. Orb Moves Right & Text Appears (Smoother transition)
+            // 4. Orb Moves Right & Text Appears (Orb moves faster than text)
             if (!shouldReduceMotion) {
                 // Move orb to the right to clear centered text
-                // Using 240px shift
-                orbMoveControls.start({ x: 280, transition: { duration: 0.8, ease: "easeInOut" } });
+                // Faster 0.5s transit
+                orbMoveControls.start({ x: 280, transition: { duration: 0.5, ease: "easeOut" } });
 
-                // Show words instantly
-                wordControls.start("visible");
+                // Show words slightly after move starts to emphasize orb speed
+                setTimeout(() => wordControls.start("visible"), 400);
             } else {
                 wordControls.start("visible");
             }
 
             // 5. Wait for sequence to complete & Fade Out
-            // Stagger is 0.12s.
-            const totalAnimationTime = words.length * 120 + 2000;
+            // Stagger is 0.18s.
+            const totalAnimationTime = words.length * 180 + 2000;
 
             await new Promise((r) => setTimeout(r, totalAnimationTime));
 

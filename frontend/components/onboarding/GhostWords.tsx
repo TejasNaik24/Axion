@@ -43,9 +43,9 @@ export default function GhostWords({
             y: 0,
             filter: "blur(0px)",
             transition: {
-                duration: 0.45, // More elegant unblur
+                duration: 0.5, // Even more elegant unblur
                 ease: [0.25, 1, 0.5, 1],
-                delay: i * 0.12, // Slower, more readable ripple
+                delay: i * 0.18, // Slightly slower ripple
             },
         }),
         exit: {
