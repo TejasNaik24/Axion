@@ -26,7 +26,7 @@ import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
 import { FaGoogle, FaMicrosoft } from "react-icons/fa6";
 
-import AxionOrb from "@/components/landing/AxionOrb";
+import AxionOrb from "@/components/landing/AxionParticle";
 import GlowingButton from "@/components/landing/GlowingButton";
 import SocialButton from "./SocialButton";
 import styles from "@/styles/auth.module.css";

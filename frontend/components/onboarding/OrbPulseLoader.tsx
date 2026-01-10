@@ -22,7 +22,7 @@ import dynamic from "next/dynamic";
 import { motion, useAnimation } from "framer-motion";
 
 // Dynamic import with no SSR to avoid window/canvas issues
-const AxionOrb = dynamic(() => import("../landing/AxionOrb"), {
+const AxionOrb = dynamic(() => import("../landing/AxionParticle"), {
     ssr: false,
     loading: () => (
         <div className="w-full h-[600px] flex items-center justify-center">

@@ -29,7 +29,7 @@ import ClockFallbackTrail from "./ClockFallbackTrail";
 
 // Use dynamic import for Three.js component to ensure stability
 const AxionOrb = dynamic(
-  () => import("@/components/landing/AxionOrb"),
+  () => import("@/components/landing/AxionParticle"),
   { ssr: false }
 );
 

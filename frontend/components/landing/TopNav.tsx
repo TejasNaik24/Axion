@@ -13,7 +13,7 @@ import { FiGithub, FiMenu } from "react-icons/fi";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
-const AxionOrb = dynamic(() => import("./AxionOrb"), { ssr: false });
+const AxionOrb = dynamic(() => import("./AxionParticle"), { ssr: false });
 
 export default function TopNav({
   repoUrl = "https://github.com/TejasNaik24/Axion",

@@ -5,7 +5,7 @@ import { motion, useAnimation } from "framer-motion";
 import Link from "next/link";
 import GlowingButton from "@/components/landing/GlowingButton";
 
-const AxionOrb = dynamic(() => import("@/components/landing/AxionOrb"), {
+const AxionOrb = dynamic(() => import("@/components/landing/AxionParticle"), {
   ssr: false,
   loading: () => (
     <div className="w-full h-125 rounded-full bg-linear-to-br from-accent1/10 to-accent2/10 backdrop-blur-3xl animate-pulse flex items-center justify-center">
