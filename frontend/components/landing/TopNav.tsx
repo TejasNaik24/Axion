@@ -52,7 +52,7 @@ export default function TopNav({
           scale,
           borderColor,
         }}
-        className="fixed top-6 left-35 right-35 z-50 rounded-full border border-white/5 hidden md:flex items-center justify-between px-6 py-3 transition-shadow duration-500 hover:shadow-[0_8px_30px_rgba(0,240,216,0.1)] group overflow-hidden"
+        className="fixed top-6 left-35 right-35 z-50 rounded-full border border-white/5 hidden md:flex items-center justify-between px-6 py-3 transition-shadow duration-500 hover:shadow-[0_8px_30px_rgba(0,240,216,0.1)] overflow-hidden"
       >
         {/* Continuous Shimmer Glow (Always on) */}
         <div
@@ -81,7 +81,7 @@ export default function TopNav({
             <div className="relative z-10 w-8 h-8">
               <AxionOrbMini />
             </div>
-            <span className="font-bold text-lg tracking-tight text-white group-hover:text-accent2 transition-colors">
+            <span className="font-bold text-lg tracking-tight text-white hover:text-accent2 transition-colors">
               Axion
             </span>
           </Link>
