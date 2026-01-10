@@ -19,10 +19,7 @@ import { useReducedMotion } from "framer-motion";
 import { IoArrowBack } from "react-icons/io5";
 
 // Lazy-load the 3D orb to avoid SSR issues and improve initial load
-const AxionOrbMini = dynamic(
-  () => import("@/components/landing/AxionOrbMini"),
-  { ssr: false }
-);
+
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -78,9 +75,8 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
         >
           {/* Top-right Purple Glow - Pulsing animation */}
           <div
-            className={`absolute -top-20 -right-20 w-[650px] h-[650px] bg-[#7c4cff] blur-[120px] opacity-85 mix-blend-screen ${
-              shouldReduceMotion ? "" : "animate-pulse-glow-slow"
-            }`}
+            className={`absolute -top-20 -right-20 w-[650px] h-[650px] bg-[#7c4cff] blur-[120px] opacity-85 mix-blend-screen ${shouldReduceMotion ? "" : "animate-pulse-glow-slow"
+              }`}
             style={{
               transform: "translateZ(0)",
               animation: shouldReduceMotion
@@ -90,9 +86,8 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
           />
           {/* Bottom-left Cyan Glow - Pulsing animation with offset timing */}
           <div
-            className={`absolute -bottom-20 -left-20 w-[700px] h-[700px] bg-[#00f0d8] blur-[120px] opacity-65 mix-blend-screen ${
-              shouldReduceMotion ? "" : "animate-pulse-glow-slow"
-            }`}
+            className={`absolute -bottom-20 -left-20 w-[700px] h-[700px] bg-[#00f0d8] blur-[120px] opacity-65 mix-blend-screen ${shouldReduceMotion ? "" : "animate-pulse-glow-slow"
+              }`}
             style={{
               transform: "translateZ(0)",
               animation: shouldReduceMotion

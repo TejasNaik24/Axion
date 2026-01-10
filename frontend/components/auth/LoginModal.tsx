@@ -26,7 +26,7 @@ import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
 import { FaGoogle, FaMicrosoft } from "react-icons/fa6";
 
-import AxionOrbMini from "@/components/landing/AxionOrbMini";
+import AxionOrb from "@/components/landing/AxionOrb";
 import GlowingButton from "@/components/landing/GlowingButton";
 import SocialButton from "./SocialButton";
 import styles from "@/styles/auth.module.css";
@@ -150,7 +150,7 @@ export default function LoginModal() {
         <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-[#00f0d8] blur-[70px] opacity-45 pointer-events-none mix-blend-plus-lighter" />
         {/* Project Icon - Brand Orb */}
         <div className="flex justify-start mb-1 relative z-20">
-          <AxionOrbMini className="w-12 h-12" />
+          <AxionOrb className="w-12 h-12" interactive={false} />
         </div>
 
         {/* Modal header */}

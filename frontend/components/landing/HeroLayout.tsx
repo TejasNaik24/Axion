@@ -79,9 +79,9 @@ export const HeroLayout: React.FC = () => {
         />
       </div>
 
-      <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
         {/* Left Content */}
-        <div className="flex flex-col space-y-8 z-10">
+        <div className="flex flex-col space-y-8 z-10 pl-6 md:pl-40">
           {/* Hero Headline: Typed effect with glitch */}
           <motion.h1
             initial={{ opacity: 0 }}

@@ -13,7 +13,7 @@ import { FiGithub, FiMenu } from "react-icons/fi";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
-const AxionOrbMini = dynamic(() => import("./AxionOrbMini"), { ssr: false });
+const AxionOrb = dynamic(() => import("./AxionOrb"), { ssr: false });
 
 export default function TopNav({
   repoUrl = "https://github.com/TejasNaik24/Axion",
@@ -79,7 +79,7 @@ export default function TopNav({
             aria-label="Scroll to top"
           >
             <div className="relative z-10 w-8 h-8">
-              <AxionOrbMini />
+              <AxionOrb className="w-full h-full" interactive={false} />
             </div>
             <span className="font-bold text-lg tracking-tight text-white hover:text-accent2 transition-colors">
               Axion

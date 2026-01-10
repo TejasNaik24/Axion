@@ -28,8 +28,8 @@ import ClockTrail from "./ClockTrail";
 import ClockFallbackTrail from "./ClockFallbackTrail";
 
 // Use dynamic import for Three.js component to ensure stability
-const AxionOrbMini = dynamic(
-  () => import("@/components/landing/AxionOrbMini"),
+const AxionOrb = dynamic(
+  () => import("@/components/landing/AxionOrb"),
   { ssr: false }
 );
 
@@ -237,7 +237,7 @@ export default function LaunchVisual({ className = "" }: LaunchVisualProps) {
 
         {/* Center interactive orb - forced size for stability */}
         <div className={styles.miniOrbWrapper}>
-          <AxionOrbMini className={styles.miniOrb} />
+          <AxionOrb className={styles.miniOrb} interactive={false} />
         </div>
       </div>
 
