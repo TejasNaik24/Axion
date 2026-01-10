@@ -20,6 +20,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
 import { FaGoogle, FaMicrosoft } from "react-icons/fa6";
@@ -37,6 +38,8 @@ export default function SignUpModal() {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [isLoginHovered, setIsLoginHovered] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const router = useRouter();
 
   // Auto-focus first OTP box when entering verification step
   useEffect(() => {
@@ -58,6 +61,14 @@ export default function SignUpModal() {
     // Advance to next box if value is entered
     if (value && index < 5) {
       inputRefs.current[index + 1]?.focus();
+    }
+
+    // Check if full OTP is entered (simulated success)
+    if (newOtp.every(digit => digit !== "")) {
+      // Simulate API verification delay then redirect
+      setTimeout(() => {
+        router.push("/welcome");
+      }, 600);
     }
   };
 

@@ -101,7 +101,13 @@ function PrismaticCore({
   );
 }
 
-export default function AxionOrb() {
+export default function AxionOrb({
+  className = "w-full h-[600px]",
+  style,
+}: {
+  className?: string;
+  style?: React.CSSProperties;
+}) {
   const mouseRef = useRef({ x: 0, y: 0 });
   const [isHovered, setHovered] = useState(false);
 
@@ -115,7 +121,8 @@ export default function AxionOrb() {
 
   return (
     <div
-      className="w-full h-[600px] relative transition-all duration-700"
+      className={`${className} relative transition-all duration-700`}
+      style={style}
       onPointerMove={handlePointerMove}
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => {
