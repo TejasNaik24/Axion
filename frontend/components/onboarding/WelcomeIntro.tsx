@@ -106,37 +106,81 @@ export default function WelcomeIntro({
     if (!mounted) return null;
 
     return (
-        <motion.div
-            initial={{ opacity: 0 }} // Start hidden for fade-in effect
-            animate={containerControls}
-            className="relative flex items-center justify-center min-h-screen w-full overflow-hidden"
+        <div
+            className="relative flex items-center justify-center min-h-screen w-full overflow-hidden bg-[#05060a]"
         >
-            {/* Live Region for Screen Readers */}
-            <div className="sr-only" role="status" aria-live="polite">
-                {`Welcome to Axion — session ready.`}
-            </div>
-
-            {/* Main Stage Container */}
-            <div className="relative w-full h-full flex items-center justify-center">
-
-                {/* Ghost Words - ABSOLUTE CENTERED */}
-                {/* translate-x-1/2 ensures it is truly centered on the point */}
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-row flex-nowrap min-w-max pointer-events-none">
-                    <GhostWords
-                        words={words}
-                        animate={wordControls}
-                        onWord={handleWordEntry}
+            {/* Final Exit Transition Layer */}
+            <motion.div
+                animate={containerControls}
+                className="absolute inset-0 w-full h-full flex items-center justify-center"
+            >
+                {/* Background gradient layers (Matched exactly to AuthLayout.tsx but static) */}
+                <div className="fixed inset-0 pointer-events-none z-0">
+                    {/* Radial gradient: cyan → violet */}
+                    <div
+                        className="absolute inset-0 opacity-20"
+                        style={{
+                            background:
+                                "radial-gradient(circle at 30% 20%, rgba(0, 240, 216, 0.12), transparent 50%), radial-gradient(circle at 70% 80%, rgba(124, 76, 255, 0.12), transparent 50%)",
+                        }}
                     />
+
+                    {/* Noise overlay for texture */}
+                    <div
+                        className="absolute inset-0 opacity-[0.015]"
+                        style={{
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E")`,
+                        }}
+                    />
+
+                    {/* Vignette */}
+                    <div
+                        className="absolute inset-0"
+                        style={{
+                            background:
+                                "radial-gradient(circle at center, transparent 20%, rgba(5, 6, 10, 0.8) 100%)",
+                        }}
+                    />
+
+                    {/* Neon Glows (Exact positions and colors from AuthLayout, but static) */}
+                    <div
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-6xl h-full flex items-center justify-center pointer-events-none"
+                        style={{ zIndex: -1 }}
+                    >
+                        {/* Top-right Purple Glow */}
+                        <div
+                            className="absolute -top-20 -right-20 w-[650px] h-[650px] bg-[#7c4cff] blur-[120px] opacity-85 mix-blend-screen"
+                            style={{ transform: "translateZ(0)" }}
+                        />
+                        {/* Bottom-left Cyan Glow */}
+                        <div
+                            className="absolute -bottom-20 -left-20 w-[700px] h-[700px] bg-[#00f0d8] blur-[120px] opacity-65 mix-blend-screen"
+                            style={{ transform: "translateZ(0)" }}
+                        />
+                    </div>
                 </div>
 
-                {/* Orb Container - Starts Absolute Center, Moves Right */}
-                <motion.div
-                    animate={orbMoveControls}
-                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex items-center justify-center"
-                >
-                    <OrbPulseLoader ref={orbRef} />
-                </motion.div>
-            </div>
-        </motion.div>
+                {/* Main Stage Content */}
+                <div className="relative z-10 w-full h-full flex items-center justify-center">
+
+                    {/* Ghost Words - ABSOLUTE CENTERED */}
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-row flex-nowrap min-w-max pointer-events-none">
+                        <GhostWords
+                            words={words}
+                            animate={wordControls}
+                            onWord={handleWordEntry}
+                        />
+                    </div>
+
+                    {/* Orb Container - Starts Absolute Center, Moves Right */}
+                    <motion.div
+                        animate={orbMoveControls}
+                        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex items-center justify-center"
+                    >
+                        <OrbPulseLoader ref={orbRef} />
+                    </motion.div>
+                </div>
+            </motion.div>
+        </div>
     );
 }
