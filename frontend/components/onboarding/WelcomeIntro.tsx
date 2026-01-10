@@ -48,29 +48,34 @@ export default function WelcomeIntro({
             // Wait for "Login UI fade away" simulation (1s delay)
             await new Promise((r) => setTimeout(r, 1000));
 
-            // 2. Orb Appears in Center (Fades in)
-            if (!shouldReduceMotion) {
-                containerControls.start({ opacity: 1 });
+            // 2. Orb Appears in Center (Ghostly Blur Entrance)
+            if (!shouldReduceMotion && orbRef.current) {
+                orbRef.current.entranceControls.start({
+                    opacity: 1,
+                    filter: "blur(0px)",
+                    scale: 1,
+                    transition: { duration: 0.7, ease: "easeOut" } // Faster entrance
+                });
             }
 
-            // 3. Orb hovers alone (Balanced 1.4s)
-            await new Promise((r) => setTimeout(r, 1400));
+            // 3. Orb hovers alone (Extended to 1.2s for deliberate presence)
+            await new Promise((r) => setTimeout(r, 1200));
 
-            // 4. Orb Moves Right & Text Appears (Orb moves faster than text)
+            // 4. Orb Moves Right & Text Appears (Clear one-by-one flow)
             if (!shouldReduceMotion) {
                 // Move orb to the right to clear centered text
-                // Faster 0.5s transit
                 orbMoveControls.start({ x: 280, transition: { duration: 0.5, ease: "easeOut" } });
 
-                // Show words slightly after move starts to emphasize orb speed
-                setTimeout(() => wordControls.start("visible"), 400);
+                // Show words slightly after move starts to create leading effect
+                // Increased to 800ms per feedback
+                setTimeout(() => wordControls.start("visible"), 800);
             } else {
                 wordControls.start("visible");
             }
 
             // 5. Wait for sequence to complete & Fade Out
             // Stagger is 0.18s.
-            const totalAnimationTime = words.length * 180 + 2000;
+            const totalAnimationTime = words.length * 180 + 2800;
 
             await new Promise((r) => setTimeout(r, totalAnimationTime));
 

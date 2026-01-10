@@ -33,21 +33,21 @@ const AxionOrb = dynamic(() => import("../landing/AxionOrb"), {
 
 export interface OrbPulseHandle {
     pulse: () => Promise<void>;
+    entranceControls: any;
 }
 
 const OrbPulseLoader = forwardRef<OrbPulseHandle, {}>((props, ref) => {
     const controls = useAnimation();
+    const entranceControls = useAnimation();
     const [glowIntensity, setGlowIntensity] = useState(0.4);
 
     useImperativeHandle(ref, () => ({
         pulse: async () => {
-            // 1. (Removed scale hop per feedback)
             // Just glow flash
-
-            // 2. Glow flash
             setGlowIntensity(1.2);
             setTimeout(() => setGlowIntensity(0.4), 350);
         },
+        entranceControls,
     }));
 
     return (
@@ -67,15 +67,11 @@ const OrbPulseLoader = forwardRef<OrbPulseHandle, {}>((props, ref) => {
                 }}
             />
 
-            {/* Orb Container with Motion - Adjusted Size (~144px) */}
+            {/* Orb Container with Motion - Heroic Size (224px) */}
             <motion.div
-                animate={controls}
-                initial={{ opacity: 0 }}
-                whileInView={{
-                    opacity: 1,
-                    transition: { duration: 0.8, ease: "easeOut" },
-                }}
-                className="relative z-10 w-36 h-36 flex items-center justify-center"
+                animate={entranceControls}
+                initial={{ opacity: 0, filter: "blur(20px)", scale: 0.8 }}
+                className="relative z-10 w-56 h-56 flex items-center justify-center"
             >
                 <AxionOrb className="w-full h-full" />
             </motion.div>
